@@ -1,0 +1,177 @@
+{
+  "State": {
+    "Header": "Identifying Information",
+    "isInTable": false,
+    "context": "Extract the state as written."
+  },
+  "Waiver": {
+    "Header": "Identifying Information",
+    "isInTable": false,
+    "context": "Extract the waiver as written."
+  },
+  "File Name": {
+    "Header": "Identifying Information",
+    "isInTable": false,
+    "context": "Extract the file name as written."
+  },
+  "Participant Employer Status (1 = Co-employer; 2= common law employer; 3 = both)": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Coded field: 1=Co-employer, 2=Common law employer, 3=Both"
+  },
+  "recruit staff": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "refer staff to agency for hiring (co-employer)": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Select staff from worker registry": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Hire staff common law employer": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Verify staff qualifications": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Obtain criminal history and/or background investigation of staff": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Specify additional staff qualifications based on participant needs and preferences so long as such qualifications are consistent with the qualifications specified in Appendix C-1/C-3.": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Determine staff duties consistent with the service specifications in Appendix C-1/C-3.": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "\u00a0Determine staff wages and benefits subject to State limits": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Schedule staff": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Orient and instruct staff in duties": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Supervise staff": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Evaluate staff performance": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Verify time worked by staff and approve time sheets": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Discharge staff (common law employer)": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Discharge staff from providing services (co-employer)": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Other specify": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Calculation": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "\u00a0Reallocate funds among services included in the budget": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Determine the amount paid for services within the State's established limits": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Substitute service providers": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Schedule the provision of services": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Specify additional service provider qualifications consistent with the qualifications specified in Appendix C-1/C-3": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "\u00a0Specify how services are provided, consistent with the service specifications contained in Appendix C-1/C-3": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Identify service providers and refer for provider enrollment": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Authorize payment for waiver goods and service": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Review and approve provider invoices for services rendered": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "other": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Calculation.1": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Calculation.2": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  },
+  "Transition 8: Go to Waiver Overview tab, column EJ": {
+    "Header": "Appendix E: Participant Direction - Employer Authority",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 if this authority is granted, 0 if not."
+  }
+}

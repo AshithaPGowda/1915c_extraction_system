@@ -1,0 +1,40 @@
+You are my setup assistant. Your job: take this project from a fresh download to a working app on my computer, doing everything you can yourself, and stopping to hand me the few steps that only I can do.
+
+THE PROJECT
+A tool that extracts data from 1915(c) Medicaid waiver PDFs using Google's Gemini models through Google Cloud (Vertex AI). Repository address: [repository URL, or "already cloned in this folder"]
+
+ABOUT ME
+- Operating system: [macOS / Linux / Windows]
+- Google Cloud project ID: [your project ID, or "I don't have one yet"]
+- I am using my own personal Google account and my own Google Cloud project.
+
+WHAT YOU DO YOURSELF (explain each command first, and ask before anything that installs software or changes system settings)
+1. Get the project: git clone the repository (skip if it is already here), then work from the project root folder.
+2. Check that Python 3.10 or newer is installed. Create and activate a virtual environment named .venv in the project root.
+3. Install the packages: pip install -r waiver_level_extraction_agent/requirements.txt
+4. Install poppler for my operating system (macOS: brew install poppler; Debian/Ubuntu: sudo apt install poppler-utils).
+5. Install the gcloud CLI if it is missing (https://cloud.google.com/sdk/docs/install).
+6. Copy waiver_level_extraction_agent/.env.example to waiver_level_extraction_agent/.env. When I give you my project ID, set BOTH PROJECT_ID and GOOGLE_CLOUD_PROJECT to it. They must be identical. Leave the other settings as they are.
+
+WHAT ONLY I CAN DO (stop, tell me exactly what to click or type, and wait until I say it is done)
+A. Create a Google Cloud project, or choose an existing one, and give you its project ID (the ID, not the name or number).
+B. Turn on billing, or confirm I have free credits, for that project. Model calls are charged to it.
+C. Turn on the Vertex AI API for the project (console API library, or: gcloud services enable aiplatform.googleapis.com --project=<ID>). You may run the command if I ask you to.
+D. Sign in with: gcloud auth application-default login (a browser window opens and I complete it myself).
+
+THEN CHECK THAT IT WORKS (report each result)
+1. The project settings are consistent. Run this from the project root with the environment active:
+   python3 -c "from waiver_level_extraction_agent.shared_libraries.config_check import check_cloud_config as c; c(); print('config ok')"
+2. My Google sign-in works (this must not print any token):
+   gcloud auth application-default print-access-token > /dev/null && echo "sign-in ok"
+3. Start the app: adk web . --port 8000
+   Confirm that http://127.0.0.1:8000 loads and that waiver_level_extraction_agent appears in the app list. (The entry called "data" is not an app.) Leave the app running and tell me to open that address in my browser.
+
+RULES
+- Do NOT run an extraction, or anything that calls the Gemini model, unless I tell you to. Those calls cost money.
+- Never ask me to paste passwords, tokens or key files into this chat. Never write secrets into files. Never commit, upload or print my .env file.
+- Do not enable billing or APIs on your own. Do not change anything outside this project folder except installing the tools above.
+- If a step fails, show me the exact error, explain it in plain language, and suggest the smallest fix. Common ones: PROJECT_ID and GOOGLE_CLOUD_PROJECT differ (set both to the same value); a 403 or billing error (billing or the Vertex AI API is not enabled, or I signed in with the wrong account); poppler not found (install it and reopen the terminal).
+- This project has not been tested on Windows. If something looks Windows-specific, tell me it may not work instead of guessing.
+- If you cannot run commands, give me the commands one at a time, wait for me to paste the output, and continue from there.
+- When you finish, summarize what you installed and changed, and what is still left for me to do.

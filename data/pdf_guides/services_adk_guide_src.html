@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Service-Level Extraction: ADK Mode and Pipeline Mode: User Guide</title>
+<style>
+  @page { size: Letter; margin: 0.65in 0.7in 0.75in 0.7in; @bottom-center { content: counter(page); font-size: 12pt; color: #5a6675; } }
+  @page :first { @bottom-center { content: none; } }
+  :root { --ink:#1b2430; --muted:#5a6675; --line:#d5dbe3; --accent:#1f5fa8; --warnbg:#fdecea; --warn:#a4262c; --tipbg:#eaf3fb; --notebg:#f4f6f9; }
+  * { box-sizing: border-box; }
+  body { font-family: "Times New Roman", Times, serif; color: var(--ink); font-size: 12pt; line-height: 1.35; margin: 0; }
+  h1,h2,h3,h4 { line-height: 1.25; break-after: avoid; }
+  h2 { font-size: 18pt; margin: 0 0 0.5em; break-after: avoid; padding-top: 0.2em; border-bottom: 2px solid var(--accent); padding-bottom: 0.2em; }
+  h3 { font-size: 14pt; margin: 1.5em 0 0.4em; color: var(--accent); }
+  h4 { font-size: 12pt; margin: 1.1em 0 0.3em; }
+  section.chapter { margin-top: 2em; }
+  #s1 { break-before: page; margin-top: 0; }
+  p { margin: 0.6em 0; }
+  code, pre, kbd { font-family: "Courier New", Courier, monospace; font-size: 11pt; }
+  code { background: #eef1f5; padding: 0.05em 0.3em; border-radius: 3px; }
+  pre { background: #0f1720; color: #e6edf3; padding: 0.7em 0.9em; border-radius: 6px; white-space: pre-wrap; word-break: break-word; break-inside: avoid; margin: 0.8em 0; }
+  pre.long { break-inside: auto; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .box { border-radius: 6px; padding: 0.6em 0.9em; margin: 1.1em 0; break-inside: avoid; border-left: 5px solid; }
+  .box.warn { background: var(--warnbg); border-color: var(--warn); }
+  .box.tip  { background: var(--tipbg);  border-color: var(--accent); }
+  .box.note { background: var(--notebg); border-color: var(--muted); }
+  .box .t { font-weight: 700; display: block; margin-bottom: 0.15em; }
+  table { border-collapse: collapse; width: 100%; margin: 0.9em 0; font-size: 12pt; break-inside: auto; }
+  th, td { border: 1px solid var(--line); padding: 0.3em 0.5em; vertical-align: top; text-align: left; }
+  th { background: #eef2f7; }
+  tr { break-inside: avoid; } tr:has(th) { break-after: avoid; }
+  figure { margin: 1em 0; break-inside: avoid; counter-increment: fig; }
+  figure img { width: 100%; max-height: 2.4in; object-fit: contain; object-position: top left; background:#0f1720; border: 1px solid var(--line); border-radius: 4px; display: block; }
+  p:has(+ table) { break-after: avoid; }
+  h3 + p, h3 + ul, h3 + ol { break-before: avoid; }
+  figcaption { font-size: 12pt; color: var(--muted); margin-top: 0.3em; }
+  figcaption::before { content: "Figure " counter(fig) ". "; font-weight: 700; color: var(--ink); }
+  body { counter-reset: fig; }
+  ol.steps { padding-left: 1.3em; } ol.steps li { margin: 0.4em 0; }
+  ul { margin: 0.5em 0; padding-left: 1.3em; }
+  /* cover */
+  .cover { height: 8.6in; display: flex; flex-direction: column; justify-content: center; }
+  .cover h1 { font-size: 30pt; margin: 0 0 0.2em; }
+  .cover .sub { font-size: 14pt; color: var(--muted); margin-bottom: 1.6em; }
+  .cover .meta { color: var(--muted); font-size: 12pt; line-height: 1.5; }
+  /* toc */
+  .toc { break-before: page; }
+  .toc h2 { border: 0; }
+  .toc ul { list-style: none; padding: 0; }
+  .toc li { display: flex; gap: 0.5em; padding: 0.1em 0; }
+  .toc li.l2 { font-weight: 700; margin-top: 0.5em; }
+  .toc li.l3 { padding-left: 1.6em; }
+  .toc a { color: inherit; text-decoration: none; }
+  .toc .dots { flex: 1; border-bottom: 1px dotted #9aa5b4; transform: translateY(-0.3em); }
+  .small { font-size: 12pt; color: var(--muted); }
+  .credits { font-weight: 800; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Service-Level Extraction: ADK Mode and Pipeline Mode</h1>
+  <div class="sub">A step-by-step guide: from installing the tool to extracting, reviewing and saving the services in a waiver</div>
+  <div class="box warn" style="max-width:5.6in">
+    <span class="t">IMPORTANT: THIS TOOL NEEDS GOOGLE CLOUD CREDITS OR A BILLING ACCOUNT.</span>
+    <b>Every extraction sends the waiver PDF to a Gemini model on your Google Cloud project, and that usage is charged to the project's billing account. Services extraction makes many model calls per waiver (at least one per service). Make sure billing is enabled, or that you have free credits, before your first run.</b> See section 2.2.
+  </div>
+  <div class="meta">Covers: the service-level app (<code>services_extraction_agent</code>), used through the ADK web interface (ADK mode) and from the command line (pipeline mode). Waiver-level (overview) extraction has its own guide.<br>
+  Tested with: macOS, Python 3.12, Google ADK 2.0.0, Gemini 3.7 Flash, Google Chrome. <b>Not tested on Windows.</b><br>
+  Guide written: October 20, 2026<br>
+  Updated: November 1, 2026</div>
+</div>
+
+<div class="toc">
+  <h2>Table of contents</h2>
+  <!--TOC-->
+</div>
+
+<section class="chapter" id="s1">
+<h2>1. What this tool does</h2>
+<p>A 1915(c) Home and Community-Based Services (HCBS) waiver application lists the services the waiver pays for (for example Day Habilitation, Respite or Personal Care), with details for each one: who may provide it, how it is delivered, and for each of up to five years how many people use it, how many units each person uses and what it costs. This tool reads one waiver PDF and turns those details into <b>one row per service</b>, in the format of the project's service-level results sheet.</p>
+<p>For every value it also records <b>where it found the answer</b>: the PDF page and the exact wording. You review the result and decide what is kept. In ADK mode the results CSV is written when you approve, change or reject (section 7.6).</p>
+
+<h3 id="s1-1">1.1 Parent services and child services</h3>
+<p>Services form a two-level tree, and the whole tool works with that structure.</p>
+<ul>
+<li>A <b>parent service</b> is a service as the waiver names it, for example <b>Day Habilitation</b>.</li>
+<li>A <b>child service</b> is a variant of a parent that has its own users and costs, for example <b>Individual Day Habilitation</b> and <b>Group Day Habilitation</b>, both children of Day Habilitation. A parent can have many children (in the project's collection, one parent has 37), or none.</li>
+</ul>
+<p>Each parent and each child becomes its own row. In the review step, a parent is numbered <b>1</b> and its children are <b>1.1, 1.2, ...</b>, so you can always say exactly which row you mean.</p>
+
+<h3 id="s1-2">1.2 What a service row contains</h3>
+<table>
+<tr><th style="width:34%">Group</th><th>Fields (internal names in brackets)</th></tr>
+<tr><td>Identity</td><td>Service name, parent service (for a child), HCBS taxonomy (<code>hcbs_taxonomy</code>)</td></tr>
+<tr><td>Service details (parents only)</td><td>Service type 1 to 4 (<code>service_type</code>), delivery method 1 to 3 (<code>service_delivery_method</code>), provider eligibility (<code>provider_eligibility</code>), provider specifications (<code>provider_specifications</code>), self-direction authority (<code>self_direction_authority</code>), information and assistance (<code>information_assistance</code>)</td></tr>
+<tr><td>For each year 1 to 5</td><td>Capitation (<code>year_N_capitation</code>), unit (<code>year_N_unit</code>), users (<code>year_N_users</code>), average units per user (<code>year_N_avg_units_per_user</code>), average cost per unit (<code>year_N_avg_cost_per_unit</code>), component cost (<code>year_N_component_cost</code>), total cost (<code>year_N_total_cost</code>)</td></tr>
+</table>
+<p>The results CSV has 49 sheet columns plus <code>Row Type</code>, <code>Parent Service</code> and <code>Waiver Key</code>. Section 7.3 explains the codes used in the service details.</p>
+
+<h3 id="s1-3">1.3 The two ways to use the tool (both covered here)</h3>
+<table>
+<tr><th style="width:24%">Mode</th><th>What it is</th><th>Best for</th></tr>
+<tr><td><b>ADK mode</b> (sections 4 to 8)</td><td>A chat window in your web browser. You type plain-English requests and the tool answers, one waiver at a time, with a review step before anything is saved to the CSV.</td><td>Extracting and reviewing a waiver, fixing individual services or fields, extracting an extra value about a service.</td></tr>
+<tr><td><b>Pipeline mode</b> (section 9)</td><td>Commands typed in a terminal that process one waiver or many in a row, with no chat and no review step.</td><td>Large batches, where you check the results afterwards.</td></tr>
+</table>
+
+<h3 id="s1-4">1.4 How the tool checks its own work</h3>
+<p>After the model reads each service, the tool checks the result before showing it to you:</p>
+<ul>
+<li><b>Form data.</b> Many waiver PDFs contain fillable-form data (called AcroForm data). The tool compares what the model read with that data and corrects conflicts.</li>
+<li><b>Consistency checks.</b> For example, a parent's yearly total cost should equal the sum of its children's component costs, and users times average units times average cost should equal the cost shown. Anything that does not add up is <b>flagged</b>, and the flags appear in the review table.</li>
+<li><b>A second reading.</b> If flagged problems remain, the tool re-reads those services once more and checks again. There is no third attempt.</li>
+<li><b>An accuracy score.</b> The checker reports an accuracy for each waiver. A run passes at 85% or above, or when nothing is left flagged.</li>
+</ul>
+<div class="box note"><span class="t">Check the results</span>In ADK mode you review every service, with its evidence and flags, before it is written to the CSV. In pipeline mode there is no review step, so check the results before you use them.</div>
+<h3 id="s1-5">1.5 How accurate is it?</h3>
+<p>Service-level extraction was checked by a person together with Claude. <b>We are 95% confident that 96% of the extracted service-level values are correct.</b></p>
+<p>Some values will still be wrong, which is why every value comes with its page and evidence, and why ADK mode has a review step.</p>
+<h3 id="s1-6">1.6 What this guide covers, and what it does not</h3>
+<ul>
+<li><b>Covered:</b> setting up, starting the app, extracting every service in a waiver or only named services, queue (batch) mode, resuming an interrupted run, reviewing and correcting the results, writing the CSV, extracting a custom value about a service, and running the same extraction from the command line.</li>
+<li><b>Not covered:</b> waiver-level (overview) extraction. That is a different app, <code>waiver_level_extraction_agent</code>, with its own guide.</li>
+</ul>
+</section>
+
+<!--INCLUDE:waiver:s2-->
+
+<!--INCLUDE:waiver:s3-->
+
+<section class="chapter" id="s4">
+<h2>4. Start the app and open it in your browser</h2>
+<h3 id="s4-1">4.1 Start it</h3>
+<p>In a terminal opened in the project root, with the environment active (the prompt starts with <code>(.venv)</code>):</p>
+<pre><code>adk web . --port 8000</code></pre>
+<p>Wait until the terminal prints a line like <code>Uvicorn running on http://127.0.0.1:8000</code>. <b>Leave this terminal window open.</b> The app stops if you close it. The terminal also prints a running log, which is the first place to look if something seems stuck. One server runs all the apps, so if you already started it for the waiver-level guide there is nothing more to start.</p>
+<h3 id="s4-2">4.2 Open the page and choose the services app</h3>
+<p>Open Google Chrome and go to <code>http://127.0.0.1:8000</code>. You see the ADK welcome page (Figure 1). Click <b>Select an app</b> and choose <b><code>services_extraction_agent</code></b> (Figure 2).</p>
+<figure><img src="../pdf_images/adk_00_welcome_before_selecting_app.jpg"><figcaption>The ADK welcome page, before any app is selected.</figcaption></figure>
+<figure><img src="../pdf_images/adk_01_app_picker.jpg"><figcaption>The app list. Choose services_extraction_agent for service-level work. The entry called "data" is just the data folder and can be ignored.</figcaption></figure>
+<div class="box warn"><span class="t">Check your Cloud Storage permission before a large run</span>For large PDFs the services extraction caches the PDF in a Google Cloud Storage bucket. If you do not set <code>CACHE_GCS_BUCKET</code> in <code>.env</code>, a bucket named <code>&lt;PROJECT_ID&gt;-waiver-pdf-cache</code> is created in your project the first time it is needed, which requires permission to create buckets. See Appendix A.</div>
+<h3 id="s4-3">4.3 Stop the app</h3>
+<p>Click in the terminal window and press <b>Ctrl+C</b>. Your saved results are not affected.</p>
+</section>
+
+<section class="chapter" id="s5">
+<h2>5. A tour of the screen</h2>
+<p>The services app uses the same chat window as the waiver app.</p>
+<table>
+<tr><th style="width:28%">Part of the screen</th><th>What it does</th></tr>
+<tr><td><b>Message box</b> (bottom)</td><td>Type your request and press <b>Enter</b>. Everything is plain English.</td></tr>
+<tr><td><b>New Session</b> (top)</td><td>Starts a fresh conversation. Click it before starting a different waiver. Results already saved to files are not lost.</td></tr>
+<tr><td><b>Events / Traces</b> (top of the chat)</td><td><b>Events</b> shows the conversation and each step the tool takes (the grey tool-call chips). <b>Traces</b> shows how long each step took and how many model calls were made, which is the number that drives cost.</td></tr>
+<tr><td><b>Info, State, Artifacts, Evals</b> tabs (left)</td><td><b>Info</b> shows details of the event you click. <b>State</b> shows the data the session holds in memory; it also shows file paths from your computer, so keep that in mind before sharing a screenshot. <b>Artifacts</b> and <b>Evals</b> are ADK developer features this tool does not use.</td></tr>
+</table>
+<div class="box tip"><span class="t">Ask the tool what it can do</span>Type <code>Hi, what can you do?</code> at any time for a summary.</div>
+</section>
+
+<section class="chapter" id="s6">
+<h2>6. Extract the services in a waiver</h2>
+<h3 id="s6-1">6.1 Tell the tool which waiver</h3>
+<p>You can identify the waiver in several ways:</p>
+<ul>
+<li>By <b>waiver key</b>, for example <code>Extract the services in PA0324R0600</code>. The PDF is looked up in the default folder (<code>data/pdfs_267_latest</code>).</li>
+<li>By <b>path to a PDF file</b>, anywhere on your computer.</li>
+<li>By <b>path to a folder</b> of PDFs. The tool lists the PDFs in it and processes them one at a time.</li>
+<li>By asking for <b>the next waiver(s)</b> without naming one (queue mode, section 6.7).</li>
+</ul>
+<div class="box tip"><span class="t">Use a new session for each waiver</span>Click <b>New Session</b> before starting a different waiver, so nothing from the previous waiver can be mixed in.</div>
+
+<h3 id="s6-2">6.2 What happens during a full extraction</h3>
+<p>The tool hands the job through a series of specialist steps. You can watch them appear as grey chips in the chat (Figure 3).</p>
+<table>
+<tr><th style="width:32%">Step (tool or specialist)</th><th>What it does</th></tr>
+<tr><td><code>get_pdf_path</code></td><td>Finds and confirms the PDF.</td></tr>
+<tr><td><code>discover_service_list</code></td><td>Reads the PDF's form data and works out the list of services. If the waiver was already extracted at waiver level, it uses that list; otherwise the model finds the services in the PDF. The list is cross-checked against the number of service blocks in the form data. It also reuses any services already saved by an earlier run (section 6.5).</td></tr>
+<tr><td><code>correlate_services_and_taxonomy</code></td><td>Compares the service list with the form data and the taxonomy information and reports how confident the match is.</td></tr>
+<tr><td><code>get_waiver_metadata</code></td><td>Gets the waiver's state, title and file name.</td></tr>
+<tr><td><code>service_extraction_agent</code></td><td>Extracts <b>one service per request</b>, with its children, in one model call. This repeats for every service in the list, one after another, and is the longest part of a run.</td></tr>
+<tr><td><code>services_normalisation_agent</code></td><td>Tidies and standardises the extracted values.</td></tr>
+<tr><td><code>services_critic_agent</code></td><td>Checks the results against the form data and the consistency rules, applies corrections it is sure about, and decides: <b>pass</b>, <b>attempt2</b> (re-read some services) or <b>human</b> (needs a person).</td></tr>
+<tr><td><code>services_reextraction_agent</code> (only if needed)</td><td>Re-reads the flagged services once, then normalisation and the checker run again. This is the last attempt.</td></tr>
+<tr><td><code>infer_taxonomy</code> and <code>finalize_and_save</code></td><td>Fills in missing taxonomy values and saves <code>services.json</code>, the evidence file and the database rows. <b>It does not write the CSV.</b></td></tr>
+<tr><td><code>review_services</code></td><td>Builds the review table you check (chapter 7).</td></tr>
+</table>
+<figure><img src="../pdf_images/services_00_single_service_extracted_children.jpg"><figcaption>The extraction specialist has finished one service (Day Habilitation, with its two children) and control returns to the coordinator.</figcaption></figure>
+
+<h3 id="s6-3">6.3 Timing and cost</h3>
+<p>Time and cost depend on how many services the waiver has. There is one extraction call per service, plus the discovery, checking and any re-reading. In our test, extracting <b>one</b> service and running it through the rest of the pipeline took about <b>4 minutes</b>: roughly 45 seconds to discover the service list, about a minute to extract the service, and the remainder for normalising, checking and saving. A waiver with 15 services is therefore a much longer run.</p>
+<div class="box warn"><span class="t">Do not send the request again while it is working</span>A moving progress bar under the chat means the tool is still working. If you resend the request you start a second run and pay for it twice. If nothing has appeared for several minutes, look at the terminal log (see section 12).</div>
+
+<h3 id="s6-4">6.4 The result summary</h3>
+<p>When the pipeline finishes, the tool prints a short summary, then the first page of the review table (Figure 4).</p>
+<figure><img src="../pdf_images/services_01_review_table_after_extraction.jpg"><figcaption>The summary and the first review table. The Output line (the folder where the files were written) is hidden here because it contains a path from the test computer.</figcaption></figure>
+<table>
+<tr><th style="width:32%">Line</th><th>Meaning</th></tr>
+<tr><td><b>Status</b></td><td><b>success</b>: the checker passed. <b>human_review_required</b>: some flags could not be resolved automatically, so look at them in the review. <b>validation_failed</b>: accuracy was below 85% and the result did not pass; check it in the review.</td></tr>
+<tr><td><b>Services extracted</b></td><td>The number of parent services.</td></tr>
+<tr><td><b>Rows saved</b></td><td>Total rows, split into parent and child rows.</td></tr>
+<tr><td><b>Accuracy</b></td><td>The checker's score for this waiver. The evidence and the flags in the review give the detail.</td></tr>
+<tr><td><b>Attempts</b></td><td>1, or 2 if flagged services were re-read.</td></tr>
+<tr><td><b>Corrections applied</b></td><td>How many values the checker corrected from the form data.</td></tr>
+<tr><td><b>Output</b></td><td>The location of the saved <code>services.json</code>.</td></tr>
+</table>
+<p>If the status is <b>human_review_required</b>, the tool also tells you how many flags and human-queue items remain. Open the flagged services in the review (section 7.4) and decide what to do.</p>
+
+<h3 id="s6-5">6.5 Resuming an interrupted run</h3>
+<p>Each service is saved to a checkpoint file as soon as it is extracted. If a run stops part-way, start the app again, open a new session and ask for the same waiver. The tool finds the checkpoint, <b>reuses every service that was already extracted</b> and extracts only the rest. It tells you how many services were reused, which is why the run is faster than a full one. Only if you ask for a completely fresh extraction does it ignore the checkpoint.</p>
+
+<h3 id="s6-6">6.6 Extract or re-extract only named services</h3>
+<p>You do not have to run the whole waiver. Name the services you want, for example:</p>
+<ul>
+<li><code>Extract only the Day Habilitation service from AK0262R0608</code></li>
+<li><code>Re-extract Respite for PA0354R0507</code></li>
+<li><code>Fix the self-direction fields on Community Participation Support, it is provider-managed only</code></li>
+</ul>
+<p>The tool then runs <b>targeted mode</b>: it finds the PDF, loads what is already good from the checkpoint (cheap, no extra model calls), and asks the extraction specialist to read just the services you named, one model call each. Whatever you told it ("the cost table is on pages 210 to 215", "this field should be X not Y") is passed along as guidance for that attempt only. A re-extracted service <b>replaces</b> the old entry; it is never duplicated.</p>
+<p>The tool does <b>not</b> save automatically after a targeted extraction. It shows you the result and asks whether to continue through the rest of the pipeline (normalise, check, save), or whether you only wanted to look. Answer <code>yes, continue and save it</code> to fold the fix into a proper saved result, after which the review table appears.</p>
+
+<h3 id="s6-7">6.7 Queue (batch) mode</h3>
+<p>If you ask for work without naming a waiver, for example <code>Process the next waiver</code>, <code>Do the next 5</code> or <code>Continue the batch</code>, the tool picks the waivers itself:</p>
+<ul>
+<li>It looks at the default PDF folder (<code>data/pdfs_267_latest</code>) in alphabetical order.</li>
+<li>It skips waivers that already have services saved in the database.</li>
+<li>The number it takes is the number you asked for, 1 for "the next waiver", or 20 for a bare "continue the batch".</li>
+</ul>
+<p>It then runs the full extraction for <b>one waiver at a time</b>, finishing each one (and reporting its result) before starting the next. <b>Your request counts as approval for the whole batch</b>: it stops only if something needs a decision, such as a waiver that errors out. <b>Queue mode does not pause for review.</b> At the end it gives a summary across all the waivers (status, accuracy, services and rows for each, and how many are still pending) and asks whether to run another batch; it never starts a second batch on its own. You can review any finished waiver later with <code>Review the services for &lt;KEY&gt;</code>.</p>
+<div class="box tip"><span class="t">Large batches and Google's rate limits</span>If you see quota or 429 errors during a long batch, Google is limiting the request rate. Wait a few minutes, then continue; a pause between waivers helps.</div>
+</section>
+
+<section class="chapter" id="s7">
+<h2>7. Review and correct the results</h2>
+<h3 id="s7-1">7.1 How the numbering works</h3>
+<p>The review is a two-level tree. <b>A parent service is numbered N. Its children are N.1, N.2, N.3, ...</b></p>
+<ul>
+<li>A <b>parent number</b> (for example <code>2</code>) always means the parent <b>and all of its children</b>.</li>
+<li>A <b>child number</b> (for example <code>2.3</code>) means just that one child.</li>
+</ul>
+<p>The numbers are fixed while you review. After you reject something the removed rows are gone, so the tool shows a refreshed table with the new numbers; always use the numbers in the latest table.</p>
+
+<h3 id="s7-2">7.2 The list of parent services</h3>
+<p>The first table has one line per parent service, <b>50 at a time</b>. Say <code>show next page</code> for the next 50, or <code>show all</code> to see every parent at once.</p>
+<table>
+<tr><th style="width:18%">Column</th><th>Meaning</th></tr>
+<tr><td><b>#</b></td><td>The parent's number.</td></tr>
+<tr><td><b>Service</b></td><td>The service name.</td></tr>
+<tr><td><b>Type</b>, <b>Delivery</b></td><td>The service type and delivery method codes (section 7.3).</td></tr>
+<tr><td><b>Taxonomy</b></td><td>The HCBS taxonomy category.</td></tr>
+<tr><td><b>Children</b></td><td>How many child services it has.</td></tr>
+<tr><td><b>Yr 1 total cost</b></td><td>The year 1 total cost.</td></tr>
+<tr><td><b>Page (C)</b></td><td>The PDF page in Appendix C where the service is described.</td></tr>
+<tr><td><b>Flags</b></td><td>How many problems the checker flagged for this service. Open a flagged service to see them.</td></tr>
+</table>
+
+<h3 id="s7-3">7.3 What the codes mean</h3>
+<table>
+<tr><th style="width:30%">Field</th><th>Codes</th></tr>
+<tr><td><code>service_type</code></td><td>1 = Statutory Service; 2 = Extended State Plan Service; 3 = Supports for Participant Direction; 4 = Other Service</td></tr>
+<tr><td><code>service_delivery_method</code></td><td>1 = Participant-directed as specified in Appendix E; 2 = Provider managed; 3 = Both</td></tr>
+<tr><td><code>provider_eligibility</code></td><td>1 = Legally Responsible Person; 2 = Relative; 3 = Legal Guardian. If all apply, 123. An option that does not apply is coded 0, for example 023, 120 or 103.</td></tr>
+<tr><td><code>provider_specifications</code></td><td>1 = agency; 2 = individual; 3 = both</td></tr>
+<tr><td><code>self_direction_authority</code></td><td>1 = Employer Authority; 2 = Budget Authority; 3 = Both. Blank if the service does not qualify for self-direction.</td></tr>
+<tr><td><code>information_assistance</code></td><td>1 = Yes</td></tr>
+<tr><td><code>year_N_capitation</code></td><td>1 = Yes, 0 = No</td></tr>
+<tr><td><code>year_N_component_cost</code></td><td>Calculated as users times average units per user times average cost per unit. Compare it with the figure in the waiver.</td></tr>
+</table>
+
+<h3 id="s7-4">7.4 Opening a service</h3>
+<p>Type <code>show 1</code> to open parent 1 (Figure 5). You see its fields with the evidence for each, the pages where it was found in Appendices C, E and J, a table of costs by year, the checker's flags with their reasons, and a table of its children.</p>
+<figure><img src="../pdf_images/services_02_show_parent_with_children.jpg"><figcaption>Parent 1, Day Habilitation: its fields and evidence pages, costs by year, and its two children, numbered 1.1 and 1.2.</figcaption></figure>
+<p>Type <code>show 1.1</code> to open one child. A child shows its name, taxonomy and its own year-by-year units, users and costs. Type <code>show services</code> to go back to the list.</p>
+
+<h3 id="s7-5">7.5 Searching</h3>
+<p><code>search respite</code> lists every parent or child whose name or taxonomy contains the word, each with its number, so you can open it with <code>show &lt;number&gt;</code>. You can search for several words separated by commas.</p>
+
+<h3 id="s7-6">7.6 Commands you can type</h3>
+<table>
+<tr><th style="width:38%">Type this</th><th>What happens</th></tr>
+<tr><td><code>show 2</code> / <code>show 2.3</code></td><td>Opens a parent (with its children) or one child.</td></tr>
+<tr><td><code>show next page</code> / <code>show all</code> / <code>show services</code></td><td>Next 50 parents / every parent at once / back to the list.</td></tr>
+<tr><td><code>search &lt;words&gt;</code></td><td>Finds services and children by name or taxonomy.</td></tr>
+<tr><td><code>change 2.2 year_1_unit to hour</code></td><td>Changes one field of one row. Use the field names shown in the review (section 1.2). Works on a parent too: <code>change 3 hcbs_taxonomy to 08010</code>.</td></tr>
+<tr><td><code>reject 3.2</code></td><td>Removes one child.</td></tr>
+<tr><td><code>reject 3</code></td><td>Removes parent 3 <b>and all its children</b>. The tool tells you so when it does.</td></tr>
+<tr><td><code>re-extract 2 (hint: ...)</code></td><td>Re-reads parent 2 from the PDF, with your hint. Its children come with it.</td></tr>
+<tr><td><code>approve all</code></td><td>Accepts everything as shown and writes the CSV.</td></tr>
+<tr><td><code>approve 1-3</code>, <code>approve 2.1-2.4</code>, <code>approve all except 5</code></td><td>Accepts part of the table (see below).</td></tr>
+</table>
+<p><b>Approving part of the table.</b> <code>approve 1-3</code> keeps services 1 to 3 with all their children and removes the rest. <code>approve 2.1-2.4</code> keeps parent 2's own row with only children 2.1 to 2.4 and removes everything else.</p>
+<div class="box warn"><span class="t">Saving happens straight away</span><code>approve</code>, <code>change</code> and <code>reject</code> each <b>write the services CSV immediately</b>. A <code>change</code> or <code>reject</code> keeps every other service as it was extracted, so after one of these commands the rest of the table has also been saved. Before every overwrite, the previous CSV is copied to <code>data/csv_backups/</code>. The tool will not let you remove every service in one step.</div>
+
+<h3 id="s7-7">7.7 Changing a value</h3>
+<p><code>change 1.2 year_1_unit to hour</code> edits one field. The tool confirms what it changed and shows a refreshed table (Figure 6). The saved <code>services.json</code>, the database and the CSV all receive the change, and the original is kept as <code>services.pre_review.json</code>. To undo a change, change the value back.</p>
+<figure><img src="../pdf_images/services_03_change_child_field.jpg"><figcaption>A change applied to child 1.2. File paths in the reply are hidden in this picture.</figcaption></figure>
+
+<h3 id="s7-8">7.8 Rejecting a service or a child</h3>
+<p><code>reject 3.2</code> removes child 3.2. <code>reject 3</code> removes parent 3 and every child it has, because a child without its parent would be a row with no parent. The removed rows disappear from the saved result and the CSV. The original, with everything, stays in <code>services.pre_review.json</code>.</p>
+
+<h3 id="s7-9">7.9 Re-extracting a service with a hint</h3>
+<p>When you think the tool missed or misread a service, type <code>re-extract 2 (hint: the costs are in Appendix J, page 260)</code>. The tool looks up the exact service name, then runs <b>targeted mode</b> (section 6.6) for it: the service is read again with your hint, the result goes through normalisation and the checker, it is saved, and the review for that service is shown again. Re-extraction always works on the <b>parent</b>. If you name a child (for example 2.2), the tool tells you that the parent is re-extracted and the children come with it.</p>
+
+<h3 id="s7-10">7.10 Writing the CSV</h3>
+<p><code>approve all</code> (or any approve, change or reject) writes this waiver's rows to <code>data/outputs/service_level_extraction.csv</code>, or to a different file if you name one. The CSV holds <b>all waivers' rows</b>: writing a waiver <b>replaces only that waiver's rows</b> and leaves every other waiver untouched.</p>
+<p>If you want to write a waiver's result to the CSV <b>without reviewing it</b>, say so (for example <code>write PA0324R0600 to the CSV without review</code>). You can ask for a preview first, which shows what would change and writes nothing.</p>
+</section>
+
+<section class="chapter" id="s8">
+<h2>8. Extract a value about a service</h2>
+<p>Sometimes you need something that is not one of the standard columns, for example the <b>provider qualifications for Day Habilitation</b>, the <b>unit of service for one child</b>, or <b>which services allow family caregivers</b>. The custom value feature extracts one such value from the PDF, shows you the evidence, and saves it separately. <b>It never changes the standard services results.</b></p>
+<h3 id="s8-1">8.1 Ask for it</h3>
+<p>Type, for example, <code>Extract the provider qualifications for Day Habilitation from AK0262R0608</code>. The tool first checks whether an existing column already covers it (taxonomy, service type, delivery method, eligibility, specifications, self-direction, units, users or costs). If one does, it shows that and asks whether you want it instead.</p>
+<h3 id="s8-2">8.2 Confirm what you are asking for</h3>
+<p>If the value is new, the tool shows a <b>confirmation card</b> (Figure 7):</p>
+<ul>
+<li><b>Service</b>: which service it is about, a parent or a child, named as in the review table. It can also be left out for a value about the waiver's services in general.</li>
+<li><b>Name</b>, <b>Meaning</b> and <b>Usually contains</b>: what the value is and what it normally looks like.</li>
+<li><b>Type</b>: text, number, yes/no (1 or 0), date or list. <b>Where to look</b>, and <b>Allowed values</b> if there is a fixed list.</li>
+<li>The rule that <b>nothing is guessed</b>: if the PDF does not say it, the value is left blank.</li>
+</ul>
+<p>The tool fills in a suggestion for anything you did not say. If the card is wrong, tell the tool what to change in plain words. You can also say <b>"you decide"</b>. When the card is right, type <code>yes</code>.</p>
+<figure><img src="../pdf_images/services_04_custom_value_confirmation_card.jpg"><figcaption>The confirmation card. Nothing is extracted until you answer yes.</figcaption></figure>
+<h3 id="s8-3">8.3 The result</h3>
+<p>After <code>yes</code> the tool makes <b>one model call</b> (about 30 seconds in our test). The result shows the value, the page, the exact wording from the PDF, the confidence and any notes, other occurrences of the same item on other pages, and your four choices (Figure 8).</p>
+<figure><img src="../pdf_images/services_05_custom_value_result_with_evidence.jpg"><figcaption>The extracted value, the page (66), the verbatim evidence and the four choices.</figcaption></figure>
+<div class="box tip"><span class="t">Always check the evidence</span>In the test, the PDF text on page 66 under "Certified HCBS: Day Habilitation Services" matched the tool's quote exactly. Read the quoted wording and page number every time.</div>
+<h3 id="s8-4">8.4 Your four choices</h3>
+<table>
+<tr><th style="width:30%">Type</th><th>What happens</th></tr>
+<tr><td><code>approve</code></td><td>Saves the value to the waiver's <code>custom_service_extractions.json</code> and adds one row to <code>data/outputs/custom_service_extractions.csv</code>.</td></tr>
+<tr><td><code>change to &lt;your value&gt;</code></td><td>Saves the value you typed instead of the extracted one.</td></tr>
+<tr><td><code>retry (hint: ...)</code></td><td>Runs the extraction again with your hint, for example <code>retry (hint: include the provider category and type too)</code>. The hint is used for that attempt only and is <b>not</b> added to the saved definition.</td></tr>
+<tr><td><code>reject</code></td><td>Discards the result. Nothing is saved.</td></tr>
+</table>
+<p>Each row of <code>custom_service_extractions.csv</code> has: <code>waiver_key</code>, <code>service_name</code>, <code>label</code>, <code>value</code>, <code>page</code>, <code>evidence</code>, <code>confidence</code>, <code>description</code>, <code>value_type</code>, <code>model</code>, <code>extracted_at</code> and <code>approved_at</code>. Saving the same waiver, service and label again replaces that row.</p>
+</section>
+
+<section class="chapter" id="s9">
+<h2>9. Pipeline mode (command line)</h2>
+<p>Pipeline mode runs the same extraction without the chat window. You type a command in the terminal and it processes one waiver, or many, one after another. The program is <code>run_services_pipeline.py</code>.</p>
+<div class="box warn"><span class="t">No review step, and it costs credits</span>Pipeline mode does <b>not</b> stop for your approval: each waiver's rows are written to the services CSV as soon as the waiver is finished. <b>It calls the Gemini model at least once per service and is billed to your Google Cloud project, so a large batch can use a lot of credits.</b> Start with one waiver, or with <code>--limit 2</code>, and check the results and your billing before running a batch. To review a waiver you extracted this way, open it in ADK mode with <code>Review the services for &lt;KEY&gt;</code>.</div>
+
+<h3 id="s9-1">9.1 Before you run a command</h3>
+<p>Open a terminal in the project root and activate the environment (section 3.2). The same <code>.env</code> settings are used. If the project settings are wrong, the command stops at once with a message saying what to fix.</p>
+
+<h3 id="s9-2">9.2 Where the list of services comes from</h3>
+<p>For each waiver the program needs the list of its services. It uses, in this order: the list saved when the waiver was extracted at waiver level (<code>overview.json</code>), or, if there is none, or if you add <code>--standalone</code>, the model finds the services in the PDF. The list is cross-checked against the PDF's form data either way.</p>
+
+<h3 id="s9-3">9.3 Commands</h3>
+<p>You must give exactly one of <code>--waiver</code>, <code>--file</code>, <code>--all</code>, <code>--export-csv</code> or <code>--rebuild</code>.</p>
+<table>
+<tr><th style="width:46%">Command</th><th>What it does</th></tr>
+<tr><td><code>python run_services_pipeline.py --waiver PA0324R0600</code></td><td>Extracts the services of one waiver by key. The PDF is looked up in the default folder or in <code>--pdf-dir</code>.</td></tr>
+<tr><td><code>python run_services_pipeline.py --file /path/to/waiver.pdf</code></td><td>Extracts one PDF from any location.</td></tr>
+<tr><td><code>python run_services_pipeline.py --all</code></td><td>Extracts every waiver that has an <code>overview.json</code> (that is, every waiver already extracted at waiver level).</td></tr>
+<tr><td><code>--limit 10</code></td><td>With <code>--all</code>: stops after 10 waivers. Use it to test.</td></tr>
+<tr><td><code>--skip-existing</code></td><td>With <code>--all</code>: skips waivers that already have services saved.</td></tr>
+<tr><td><code>--pdf-dir ~/Desktop/new_pdfs</code></td><td>Looks for the PDFs in this folder instead of the default one.</td></tr>
+<tr><td><code>--output-csv my_run.csv</code></td><td>Writes the results to this CSV instead of the default <code>data/outputs/service_level_extraction.csv</code>. A bare file name goes in <code>data/outputs/</code>.</td></tr>
+<tr><td><code>--standalone</code></td><td>Finds the service list in the PDF with the model instead of using <code>overview.json</code>.</td></tr>
+<tr><td><code>--waiver KEY --resume</code></td><td>After an interrupted run, skips the services already saved in its checkpoint and extracts only the rest.</td></tr>
+<tr><td><code>--waiver KEY --only-service "Respite"</code></td><td>Extracts just that one named service (one model call) and adds it to the checkpoint, with no checking and no database save. Use it to retry one service that keeps failing. Follow with <code>--resume</code> (or <code>--rebuild</code>) to fold it into the saved result.</td></tr>
+<tr><td><code>--rebuild KEY</code></td><td>Rebuilds the outputs from the latest checkpoint of a crashed run. <b>No model calls.</b></td></tr>
+<tr><td><code>--export-csv data/outputs/my_export.csv</code></td><td>Exports every service saved in the database to a CSV. <b>No extraction and no model calls.</b></td></tr>
+</table>
+
+<h3 id="s9-4">9.4 Reading a command in plain English</h3>
+<p>A pipeline command is several small instructions typed on one line. Each part that starts with two dashes (<code>--</code>) is an <b>option</b> that changes what the program does. Here is one command, taken apart:</p>
+<pre><code>python run_services_pipeline.py --all --pdf-dir ~/Desktop/new_pdfs --output-csv my_run.csv</code></pre>
+<table>
+<tr><th style="width:34%">Part</th><th>What it means</th></tr>
+<tr><td><code>python run_services_pipeline.py</code></td><td>"Run the services extraction program."</td></tr>
+<tr><td><code>--all</code></td><td>"Do every waiver that has already been extracted at waiver level (every waiver with an <code>overview.json</code>), one after another."</td></tr>
+<tr><td><code>--pdf-dir ~/Desktop/new_pdfs</code></td><td>"Find the PDFs in this folder." It is the folder called <code>new_pdfs</code> on your Desktop; the <code>~</code> is shorthand for your own home folder. Without this option the program uses <code>data/pdfs_267_latest</code> inside the project.</td></tr>
+<tr><td><code>--output-csv my_run.csv</code></td><td>"Save the results in a spreadsheet file called <code>my_run.csv</code>" in <code>data/outputs/</code> instead of the usual results file.</td></tr>
+</table>
+<p><b>Put together, it says:</b> <i>"For every waiver that has already been extracted at waiver level, take its PDF from the new_pdfs folder on my Desktop, extract its services one waiver after another, and save the rows in data/outputs/my_run.csv instead of the usual results file."</i> The order of the options does not matter.</p>
+
+<h3 id="s9-5">9.5 Results</h3>
+<p>Pipeline results go to the same places as in ADK mode (chapter 10). The program writes each waiver's rows into the services CSV as it finishes that waiver, replacing only that waiver's rows, and prints a summary at the end: how many waivers succeeded, needed human review or failed, the mean accuracy, and the number of services and rows (parent and child).</p>
+</section>
+
+<section class="chapter" id="s10">
+<h2>10. Where your files are saved</h2>
+<p>All paths are inside the project folder.</p>
+<table>
+<tr><th style="width:44%">File or folder</th><th>What it holds</th></tr>
+<tr><td><code>data/outputs/service_level_extraction.csv</code></td><td>The approved service-level results. One row per service (parents and children), all waivers together, with 49 sheet columns plus <code>Row Type</code>, <code>Parent Service</code> and <code>Waiver Key</code>. Created (with just the header row) as soon as the app starts.</td></tr>
+<tr><td><code>data/outputs/custom_service_extractions.csv</code></td><td>Approved custom service values, one row per waiver, service and label.</td></tr>
+<tr><td><code>data/outputs/&lt;KEY&gt;/services.json</code></td><td>The waiver's current result: every parent with its children, and the evidence-based values.</td></tr>
+<tr><td><code>data/outputs/&lt;KEY&gt;/services.pre_review.json</code></td><td>The result as it was before your first change or rejection.</td></tr>
+<tr><td><code>data/outputs/&lt;KEY&gt;/services_evidence.json</code></td><td>The evidence for each value (pages and wording) and the checker's flags. <code>services_evidence.pre_review.json</code> is its copy from before the review.</td></tr>
+<tr><td><code>data/outputs/&lt;KEY&gt;/services_review.json</code></td><td>A record of your review decisions.</td></tr>
+<tr><td><code>data/outputs/&lt;KEY&gt;/services_attempt1.jsonl</code></td><td>The checkpoint: one line per extracted service, saved as each one finishes. This is what lets an interrupted run resume.</td></tr>
+<tr><td><code>data/outputs/&lt;KEY&gt;/custom_service_extractions.json</code></td><td>Custom values for this waiver, with notes and other occurrences.</td></tr>
+<tr><td><code>data/outputs/waivers.db</code></td><td>The project database. Its services table holds the saved rows.</td></tr>
+<tr><td><code>data/csv_backups/</code></td><td>A copy of the CSV taken before every overwrite.</td></tr>
+<tr><td><code>data/logs/&lt;KEY&gt;.jsonl</code></td><td>A step-by-step log of each run for that waiver.</td></tr>
+<tr><td><code>data/services_human_overrides.jsonl</code></td><td>An audit record of values the checker corrected from the PDF's form data.</td></tr>
+</table>
+</section>
+
+<section class="chapter" id="s11">
+<h2>11. Good habits</h2>
+<ul>
+<li><b>One waiver per session.</b> Click New Session before starting another waiver.</li>
+<li><b>Open the flagged services.</b> A number in the Flags column means the checker found something that does not add up.</li>
+<li><b>Check the evidence, not just the value.</b> Read the quoted wording and page number, especially for costs and codes.</li>
+<li><b>Check parents against their children.</b> A parent's total should match its children's component costs; the checker flags the ones that do not.</li>
+<li><b>Remember that approve, change and reject save immediately.</b> Do your corrections, then finish with <code>approve all</code> so you know the final state is saved.</li>
+<li><b>Wait for the progress bar.</b> Do not resend a request while the tool is still working.</li>
+<li><b>Test with one waiver, or one service, before a batch</b>, and watch your Google Cloud spending (section 2.2).</li>
+<li><b>Never share your <code>.env</code> file or screenshots that show file paths you do not want shared.</b></li>
+</ul>
+</section>
+
+<section class="chapter" id="s12">
+<h2>12. Troubleshooting</h2>
+<table>
+<tr><th style="width:34%">What you see</th><th>What to do</th></tr>
+<tr><td>The terminal says <b>"Google Cloud project is not set"</b>, or <b>PROJECT_ID and GOOGLE_CLOUD_PROJECT differ</b>, and the app will not load</td><td>Open <code>waiver_level_extraction_agent/.env</code>. Set both <code>PROJECT_ID</code> and <code>GOOGLE_CLOUD_PROJECT</code> to your project ID (3.7). Also check that no old value is set in your shell: type <code>echo $PROJECT_ID $GOOGLE_CLOUD_PROJECT</code>. Restart <code>adk web</code>.</td></tr>
+<tr><td>A permission error (403) or "billing" error from Google</td><td>Check that billing is enabled for the project and that the Vertex AI API is on (3.6). Re-run <code>gcloud auth application-default login</code> and make sure you signed in with an account that has access to that project.</td></tr>
+<tr><td>A permission error mentioning <b>storage</b> or a <b>bucket</b></td><td>Large PDFs are cached in a Cloud Storage bucket. Your account needs permission to create or use one. Create a bucket yourself in the console and put its name in <code>.env</code> as <code>CACHE_GCS_BUCKET</code> (Appendix A).</td></tr>
+<tr><td>A "quota", "resource exhausted" or 429 error</td><td>Google is limiting how fast you can make requests. Wait a few minutes and try again; in a batch, leave a gap between waivers.</td></tr>
+<tr><td>Nothing appears for a long time after you press Enter</td><td>A single service can take about a minute, and the first request after starting the app can take 2 to 3 minutes. Look at the terminal: new lines mean it is still working. Look at the Traces view for the latest step. If there has been no activity for more than 10 minutes, stop the app (Ctrl+C), start it again, and ask for the same waiver; finished services are reused (6.5).</td></tr>
+<tr><td>"No services found"</td><td>The tool could not find a service list in the PDF. Check that the file is a 1915(c) waiver application and that it is the right PDF. For the command line, try <code>--standalone</code>.</td></tr>
+<tr><td>Queue mode says nothing is pending</td><td>Every PDF in the folder already has services saved. Name a waiver to extract it again.</td></tr>
+<tr><td>The status is <b>human_review_required</b> or <b>validation_failed</b></td><td>The checker could not resolve some flags. Open the flagged services (section 7.4), compare with the PDF, then change, reject or re-extract.</td></tr>
+<tr><td>"PDF not found"</td><td>Check the waiver key spelling, put the PDF in <code>data/pdfs_267_latest/</code>, or give the full path to the file.</td></tr>
+<tr><td>The app list contains "data"</td><td>It is only a folder. Choose <code>services_extraction_agent</code>.</td></tr>
+<tr><td>The page will not open at all</td><td>Make sure the terminal running <code>adk web</code> is still open, and that the address is exactly <code>http://127.0.0.1:8000</code>. If port 8000 is in use, start with another port, for example <code>adk web . --port 8001</code>.</td></tr>
+</table>
+</section>
+
+<section class="chapter" id="s13">
+<h2>13. Quick reference</h2>
+<h3 id="s13-1">13.1 Setup commands (once)</h3>
+<pre><code>git clone &lt;repository-url&gt; 1915c_extraction_agent &amp;&amp; cd 1915c_extraction_agent
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r waiver_level_extraction_agent/requirements.txt
+brew install poppler                       # or: sudo apt install poppler-utils
+gcloud auth application-default login
+cp waiver_level_extraction_agent/.env.example waiver_level_extraction_agent/.env
+# edit .env: set PROJECT_ID and GOOGLE_CLOUD_PROJECT to your project ID</code></pre>
+<h3 id="s13-2">13.2 Each time you work</h3>
+<pre><code>cd 1915c_extraction_agent
+source .venv/bin/activate
+adk web . --port 8000
+# open http://127.0.0.1:8000 and choose services_extraction_agent</code></pre>
+<h3 id="s13-3">13.3 Chat commands</h3>
+<table>
+<tr><th style="width:44%">Type</th><th>Purpose</th></tr>
+<tr><td><code>Extract the services in &lt;WAIVER KEY&gt;</code></td><td>Run a full services extraction.</td></tr>
+<tr><td><code>Extract only the &lt;service&gt; service from &lt;KEY&gt;</code></td><td>Extract or re-extract named services (targeted mode).</td></tr>
+<tr><td><code>Process the next waiver</code>, <code>Do the next 5</code>, <code>Continue the batch</code></td><td>Queue mode (no review stops).</td></tr>
+<tr><td><code>Review the services for &lt;KEY&gt;</code></td><td>Open the review table for a waiver already extracted.</td></tr>
+<tr><td><code>show N</code>, <code>show N.k</code>, <code>show services</code>, <code>show next page</code>, <code>show all</code>, <code>search &lt;words&gt;</code></td><td>Move around the review.</td></tr>
+<tr><td><code>change N.k &lt;field&gt; to &lt;value&gt;</code></td><td>Correct one field (saves immediately).</td></tr>
+<tr><td><code>reject N</code>, <code>reject N.k</code></td><td>Remove a parent with its children, or one child (saves immediately).</td></tr>
+<tr><td><code>re-extract N (hint: ...)</code></td><td>Re-read a parent service.</td></tr>
+<tr><td><code>approve all</code>, <code>approve 1-3</code>, <code>approve 2.1-2.4</code>, <code>approve all except 5</code></td><td>Save the results.</td></tr>
+<tr><td><code>Extract the &lt;value&gt; for &lt;service&gt; from &lt;KEY&gt;</code></td><td>Start a custom service value.</td></tr>
+<tr><td><code>yes</code>, <code>approve</code>, <code>change to &lt;value&gt;</code>, <code>retry (hint: ...)</code>, <code>reject</code></td><td>Answer the custom value prompts.</td></tr>
+</table>
+<h3 id="s13-4">13.4 Pipeline commands</h3>
+<table>
+<tr><th style="width:56%">Command</th><th>Purpose</th></tr>
+<tr><td><code>python run_services_pipeline.py --waiver KEY</code></td><td>One waiver.</td></tr>
+<tr><td><code>python run_services_pipeline.py --file /path/to.pdf</code></td><td>One PDF from anywhere.</td></tr>
+<tr><td><code>python run_services_pipeline.py --all --limit 2 --skip-existing</code></td><td>A small test batch of new waivers.</td></tr>
+<tr><td><code>python run_services_pipeline.py --waiver KEY --resume</code></td><td>Continue an interrupted waiver.</td></tr>
+<tr><td><code>python run_services_pipeline.py --rebuild KEY</code></td><td>Rebuild outputs from a checkpoint (no model calls).</td></tr>
+<tr><td><code>python run_services_pipeline.py --export-csv data/outputs/my_export.csv</code></td><td>Export saved services (no model calls).</td></tr>
+</table>
+</section>
+
+<section class="chapter" id="appA">
+<h2>Appendix A. The <code>.env</code> settings</h2>
+<table>
+<tr><th style="width:32%">Setting</th><th>Meaning</th></tr>
+<tr><td><code>PROJECT_ID</code></td><td>Your Google Cloud project ID. <b>Change this.</b> Used by the command-line programs.</td></tr>
+<tr><td><code>GOOGLE_CLOUD_PROJECT</code></td><td>Your Google Cloud project ID. <b>Change this.</b> Used by the ADK web app. Must equal <code>PROJECT_ID</code>.</td></tr>
+<tr><td><code>GOOGLE_GENAI_USE_VERTEXAI</code></td><td>Leave as <code>TRUE</code>. Tells the tool to use Google Cloud's Vertex AI.</td></tr>
+<tr><td><code>LOCATION</code></td><td>The Google Cloud region. Leave as <code>us-central1</code>. (The Gemini 3.7 model is automatically sent to Google's global endpoint.)</td></tr>
+<tr><td><code>CACHE_GCS_BUCKET</code> (optional)</td><td>A Cloud Storage bucket used to cache large PDFs during <b>services</b> extraction. If it is not set, a bucket named <code>&lt;PROJECT_ID&gt;-waiver-pdf-cache</code> is created on first use, which needs permission to create buckets. Set it to the name of a bucket you already have if you cannot create one.</td></tr>
+<tr><td><code>PDF_DIR</code>, <code>OUTPUT_DIR</code>, <code>LOG_DIR</code></td><td>Folders for source PDFs, results and logs, relative to the project root. Leave as they are unless you have a reason to move them.</td></tr>
+</table>
+
+<h2 style="margin-top:1.4em" id="appB">Appendix B. Google documentation and credits</h2>
+<div class="box warn"><span class="t credits">REMINDER: THESE TOOLS NEED CREDITS OR AN ACTIVE BILLING ACCOUNT.</span><b>Google charges for the model calls this tool makes, and services extraction makes many per waiver. Enable billing or check your free credits before running, and watch your spend.</b></div>
+<p>The Google Cloud console screenshots and the exact click paths are in Google's own documentation, which stays up to date with the console's layout:</p>
+<ul>
+<li><b>Finding your project ID:</b> "View and update projects", Resource Manager, docs.cloud.google.com/resource-manager/docs/view-update-projects</li>
+<li><b>Creating a project:</b> "Create projects", docs.cloud.google.com/resource-manager/docs/creating-managing-projects</li>
+<li><b>Signing in for local use (ADC):</b> "Set up ADC for a local development environment", docs.cloud.google.com/docs/authentication/set-up-adc-local-dev-environment</li>
+<li><b>Project, billing and API setup for Vertex AI:</b> "Set up a project and a development environment", docs.cloud.google.com/vertex-ai/docs/start/cloud-environment</li>
+<li><b>Billing questions for Vertex AI:</b> docs.cloud.google.com/vertex-ai/docs/support/billing-questions</li>
+<li><b>Free trial credits:</b> "Google Cloud Free Trial FAQs", cloud.google.com/signup-faqs</li>
+<li><b>Current model prices:</b> cloud.google.com/vertex-ai/pricing</li>
+<li><b>Installing the gcloud CLI:</b> cloud.google.com/sdk/docs/install</li>
+</ul>
+<p class="small">Google, Google Cloud, Vertex AI and Gemini are trademarks of Google LLC. Page layouts and product names in Google's documentation may change; use the current version of those pages.</p>
+
+<h2 style="margin-top:1.4em" id="appC">Appendix C. Glossary</h2>
+<table>
+<tr><th style="width:26%">Term</th><th>Meaning</th></tr>
+<tr><td>1915(c) waiver</td><td>A Medicaid program that pays for home and community-based services as an alternative to institutional care.</td></tr>
+<tr><td>Waiver key</td><td>The identifier of one waiver application, such as <code>PA0324R0600</code>. Not the same as a Google Cloud project ID.</td></tr>
+<tr><td>Parent service / child service</td><td>A service as the waiver names it, and a variant of it with its own users and costs. Numbered N and N.1, N.2, ... in the review.</td></tr>
+<tr><td>HCBS taxonomy</td><td>The standard category scheme for home and community-based services.</td></tr>
+<tr><td>AcroForm</td><td>The fillable-form data embedded in many PDFs. The tool compares what the model read with it.</td></tr>
+<tr><td>Checker (critic)</td><td>The step that verifies the extraction, applies safe corrections and flags what does not add up.</td></tr>
+<tr><td>Flag</td><td>A problem the checker found, for example a parent total that does not match its children's costs.</td></tr>
+<tr><td>Checkpoint</td><td>The file where each extracted service is saved as it finishes, so an interrupted run can resume.</td></tr>
+<tr><td>Queue mode</td><td>Asking for "the next waiver(s)" so the tool picks which waivers to process.</td></tr>
+<tr><td>Targeted mode</td><td>Extracting or re-extracting only the services you name.</td></tr>
+<tr><td>Project ID</td><td>The unique ID of your Google Cloud project, for example <code>my-waiver-project-123456</code>.</td></tr>
+<tr><td>ADC (Application Default Credentials)</td><td>The way Google's tools find your sign-in on your computer, set up with <code>gcloud auth application-default login</code>.</td></tr>
+<tr><td>Vertex AI</td><td>Google Cloud's service for running AI models, including Gemini.</td></tr>
+<tr><td>ADK (Agent Development Kit)</td><td>The framework that provides the chat window and runs the tool's steps.</td></tr>
+<tr><td>Evidence</td><td>The exact wording from the PDF, with its page number, that an answer is based on.</td></tr>
+<tr><td>Session</td><td>One conversation in the chat window. Start a new one with New Session.</td></tr>
+</table>
+
+<h2 style="margin-top:1.4em" id="appD">Appendix D. Tested with</h2>
+<table>
+<tr><td style="width:32%">Operating system</td><td>macOS (<b>not tested on Windows</b>)</td></tr>
+<tr><td>Python</td><td>3.12</td></tr>
+<tr><td>Google ADK</td><td>2.0.0</td></tr>
+<tr><td>Model</td><td>Gemini 3.7 Flash (through Vertex AI)</td></tr>
+<tr><td>Browser</td><td>Google Chrome</td></tr>
+<tr><td>Waivers used in screenshots</td><td>AK0262R0608 (Alaska), service Day Habilitation; the custom value was read from that waiver's PDF</td></tr>
+</table>
+<p class="small">Windows and Linux commands are given for convenience but were not run for this guide. The pipeline-mode options were documented from the program's help text.</p>
+
+<!--INCLUDE:waiver:appE-->
+</section>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+{
+  "1.A State": {
+    "Header": "Amendment Request Information",
+    "isInTable": false,
+    "context": "Extract value as it appears in the amendment section."
+  },
+  "1.B Waiver Title": {
+    "Header": "Amendment Request Information",
+    "isInTable": false,
+    "context": "Extract value as it appears in the amendment section."
+  },
+  "1.C Waiver number": {
+    "Header": "Amendment Request Information",
+    "isInTable": false,
+    "context": "Extract value as it appears in the amendment section."
+  },
+  "Amendment # (last two digits of waiver number, e.g: for waiver AK0261R0604, it would be 04)": {
+    "Header": "Amendment Details",
+    "isInTable": false,
+    "context": "Extract value as it appears in the amendment section."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Waiver Application (1 = did amend; 0 = did not)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix A (1 = did amend; 0 = did not)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix B (1 = did amend; 0 = did not amend)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "If did Amend Appendix B (column G = 1) go to Amend B": {
+    "Header": "Amendment Details",
+    "isInTable": false,
+    "context": "Extract value as it appears in the amendment section."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix C (1 = did amend; 0 = did not amend)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "If did Amend Appendix C (column I = 1) go to Tab Amend C": {
+    "Header": "Amendment Details",
+    "isInTable": false,
+    "context": "Extract value as it appears in the amendment section."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix D (1 = did amend; 0 = did not amend)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix E (1 = did amend; 0 = did not amend)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "If did Amend Appendix E (column L = 1) go to Tab Amend E": {
+    "Header": "Amendment Details",
+    "isInTable": false,
+    "context": "Extract value as it appears in the amendment section."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix F (1 = did amend; 0 = did not amend)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix G (1 = did amend; 0 = did not amend)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix H (1 = did amend; 0 = did not amend)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix I (1 = did amend; 0 = did not amend)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "A. Component(s) of the Approved Waiver Affected by the Amendment: Appendix J (1 = did amend; 0 = did not amend)": {
+    "Header": "Amendment Components Affected",
+    "isInTable": true,
+    "context": "Binary field. 1 if this component was amended, 0 if not."
+  },
+  "If did Amend Appendix J (column R = 1) go to Tab Amend J": {
+    "Header": "Amendment Details",
+    "isInTable": false,
+    "context": "Extract value as it appears in the amendment section."
+  }
+}

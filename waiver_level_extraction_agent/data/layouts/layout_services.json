@@ -1,0 +1,151 @@
+{
+  "1.A State": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "The state name. Only populated on parent service rows.",
+    "row_type": "parent_only"
+  },
+  "1.B Waiver": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "The waiver title. Only populated on parent service rows.",
+    "row_type": "parent_only"
+  },
+  "1.C File Name": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "The PDF filename (e.g., CA.0336.R04.04). Only populated on parent service rows.",
+    "row_type": "parent_only"
+  },
+  "C-1/C-3 Waiver Service": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "The name of the service exactly as it appears in Appendix C. For parent rows, this is the main service name. For child rows, this is the sub-service name from Appendix J cost breakdowns.",
+    "row_type": "both"
+  },
+  "C-1/C-3 Service Type": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field: 1=Statutory Service, 2=Extended State Plan Service, 3=Supports for Participant Direction, 4=Other Service. Only populated on parent rows.",
+    "row_type": "parent_only",
+    "values": {
+      "1": "Statutory Service",
+      "2": "Extended State Plan Service",
+      "3": "Supports for Participant Direction",
+      "4": "Other Service"
+    }
+  },
+  "C-1/C-3 Service Delivery Method": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field: 1=Participant-directed as specified in Appendix E, 2=Provider managed, 3=Both. Only populated on parent rows.",
+    "row_type": "parent_only",
+    "values": {
+      "1": "Participant-directed",
+      "2": "Provider managed",
+      "3": "Both"
+    }
+  },
+  "C-1/C-3 Provider Eligibility": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field for who may provide the service. Values like '123', '023', '120' indicate combinations where 1=Legally Responsible Person, 2=Relative, 3=Legal Guardian. 0 indicates that option does not apply. Only populated on parent rows.",
+    "row_type": "parent_only",
+    "values": {
+      "1": "Legally Responsible Person",
+      "2": "Relative",
+      "3": "Legal Guardian"
+    }
+  },
+  "C-1/C-3 Provider Specifications": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field: 1=Agency, 2=Individual, 3=Both. Only populated on parent rows.",
+    "row_type": "parent_only",
+    "values": {
+      "1": "Agency",
+      "2": "Individual",
+      "3": "Both"
+    }
+  },
+  "E-1g: Self-direction Authority": {
+    "Header": "Appendix E: Participant Direction of Services",
+    "isInTable": true,
+    "context": "Coded field: 1=Employer Authority, 2=Budget Authority, 3=Both. Leave blank/null if this service does not support self-direction. Only populated on parent rows.",
+    "row_type": "parent_only",
+    "values": {
+      "1": "Employer Authority",
+      "2": "Budget Authority",
+      "3": "Both"
+    }
+  },
+  "E-1j: Information & Assistance": {
+    "Header": "Appendix E: Participant Direction of Services",
+    "isInTable": true,
+    "context": "1=Yes if Information and Assistance is provided through this waiver service coverage, blank/null otherwise. Only populated on parent rows.",
+    "row_type": "parent_only",
+    "values": {
+      "1": "Yes"
+    }
+  },
+  "# Users Year 1": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Number of unduplicated users for Year 1. On parent rows, this may be blank/N/A if users are aggregated from children. On child rows, this is the user count for that sub-service.",
+    "row_type": "both"
+  },
+  "Total Cost Year 1": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Total cost for Year 1. On parent rows, this is the aggregated total. On child rows, this should be 'N/A' as costs are at the parent level.",
+    "row_type": "both"
+  },
+  "# Users Year 2": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Number of unduplicated users for Year 2.",
+    "row_type": "both"
+  },
+  "Total Cost Year 2": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Total cost for Year 2.",
+    "row_type": "both"
+  },
+  "# Users Year 3": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Number of unduplicated users for Year 3.",
+    "row_type": "both"
+  },
+  "Total Cost Year 3": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Total cost for Year 3.",
+    "row_type": "both"
+  },
+  "# Users Year 4": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Number of unduplicated users for Year 4.",
+    "row_type": "both"
+  },
+  "Total Cost Year 4": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Total cost for Year 4.",
+    "row_type": "both"
+  },
+  "# Users Year 5": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Number of unduplicated users for Year 5.",
+    "row_type": "both"
+  },
+  "Total Cost Year 5": {
+    "Header": "Appendix J: Cost Neutrality Demonstration",
+    "isInTable": true,
+    "context": "Total cost for Year 5.",
+    "row_type": "both"
+  }
+}

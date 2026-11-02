@@ -1,0 +1,247 @@
+{
+  "1.A State": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "1.B Waiver ": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "1.C File Name ": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "C-1/C-3 Waiver Service": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "The name of the service exactly as it appears in Appendix C."
+  },
+  "HCBS Taxonomy": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "C-1/C-3 Service Type (1 = Statutory Service; 2 = Extended State Plan Service; 3 = Supports for Participant Direction; 4 = Other Service)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field: 1=Statutory Service, 2=Extended State Plan Service, 3=Supports for Participant Direction, 4=Other Service"
+  },
+  "C-1/C-3 Service Delivery Method (1 = Participant-directed as specified in Appendix E;  2 = Provider managed; 3 = Both)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field: 1=Participant-directed as specified in Appendix E, 2=Provider managed, 3=Both"
+  },
+  "C-1/C-3 Specify whether the service may be provided by (1 = Legally Responsible Person; 2 = Relative; 3 = Legal Guardian. If all applies, code as 123. If one of the options does not apply, code as 0, such as 023, 120, 103 etc)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field for who may provide service. Values like 123, 023, 120 indicate combinations."
+  },
+  "C-1/C-3: Provider Specifications for Service (1= agency; 2= individual; 3=both)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Transition 2: Transition to Waiver Overview Tab, column CG": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "E-1g: Self-direction Authority (1 = Employer Authority; 2 = Budget Authority; 3 = Both) Leave blank if this service does not qualify self-direction ": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Transition 4: Transition to Waiver Overview, column DA": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "E-1j: Information and Assistance Provided through this Waiver Service Coverage (1=Yes)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "The name of the service exactly as it appears in Appendix C."
+  },
+  "Transition 6: Transition to Waiver Overview, column DV": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "J-2d: Capitation (1=Yes, 0=No), Year 1": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Unit, Year 1": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "# Users, Year 1": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Units Per User, Year 1": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Cost/ Unit, Year 1": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Component Cost, Year 1 (This is calculated by multiplying previous 3 columns, compare the calculation with the number from the waiver)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Total Cost, Year 1": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "J-2d: Capitation (1=Yes, 0=No), Year 2": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Unit, Year 2": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "# Users, Year 2": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Units Per User, Year 2": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Cost/ Unit, Year2": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Component Cost, Year 2 (This is calculated by multiplying previous 3 columns, compare the calculation with the number from the waiver)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Total Cost, Year 2": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "J-2d: Capitation (1=Yes, 0=No), Year 3": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Unit, Year 3": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "# Users, Year 3": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Units Per User, Year 3": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Cost/ Unit, Year3": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Component Cost, Year 3 (This is calculated by multiplying previous 3 columns, compare the calculation with the number from the waiver)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Total Cost, Year 3": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "J-2d: Capitation (1=Yes, 0=No), Year 4": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Unit, Year 4": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "# Users, Year 4": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Units Per User, Year 4": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Cost/ Unit, Year4": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Component Cost, Year 4 (This is calculated by multiplying previous 3 columns, compare the calculation with the number from the waiver)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Total Cost, Year 4": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "J-2d: Capitation (1=Yes, 0=No), Year 5": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Unit, Year 5": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "# Users, Year 5": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Units Per User, Year 5": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Avg. Cost/ Unit, Year 5": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Component Cost, Year 5 (This is calculated by multiplying previous 3 columns, compare the calculation with the number from the waiver)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  },
+  "Total Cost, Year 5": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract value as it appears in the document."
+  }
+}

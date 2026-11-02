@@ -1,0 +1,817 @@
+{
+  "Date of Completed Waiver Review": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Date field. Extract in YYYY-MM-DD format if possible."
+  },
+  "1.A State": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Extract the full state name."
+  },
+  "1.B Waiver Title": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Extract the waiver title exactly as written in the document."
+  },
+  "1.C Waiver number": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Extract the waiver number exactly as written (e.g., AL.0407.R04.00)."
+  },
+  "1.C. Requested Approval Period (years)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "1.D. Type of Waiver (1=regular waiver, 2= amendment; 3 Model Waiver)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "1.E. Approved Effective Date": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Date field. Extract in YYYY-MM-DD format if possible."
+  },
+  "Actual Expiration Date (leave blank if still active)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Date field. Extract in YYYY-MM-DD format if possible."
+  },
+  "1.F. Hospital Level of Care (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.F. Hospital as defined in 42 CFR \u00a7440.10 Hospital Level of Care Subcategories (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.F. Hospital as defined in 42 CFR \u00a7440.10 Hospital Level of Care Subcategories (fill if YES to the previous question, otherwise leave blank)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "1.F. Hospital: Inpatient psychiatric facility for individuals age 21 and under as provided in42 CFR \u00a7440.160 (0 = No, 1=Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "1.F. Nursing Facility Level of Care (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.F. Nursing Facility as defined in 42 CFR \u00a7440.40 and 42 CFR \u00a7440.155  (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.F. Nursing Facility as defined in 42 CFR \u00a7440.40 and 42 CFR \u00a7440.155 Subcategories (fill if YES to the previous question, otherwise leave blank)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "1.F. Institution for Mental Disease for persons with mental illnesses aged 65 and older as provided in 42 CFR \u00a7440.140 (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.F. ICF/IID Level of Care (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.G. Concurrent Operation with Other Programs: Not applicable (1 = Yes, 0=not applicable)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 1 for Yes, 0 for No/Not applicable."
+  },
+  "1.G. Concurrent Operation with Other Programs: Services furnished under the provisions of \u00a71915(a)(1)(a) of the Act and described in Appendix I  (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.G. Concurrent Operation with Other Programs: Waiver(s) authorized under \u00a71915(b) of the Act  (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.G. Concurrent Operation with Other Programs: Waiver(s) authorized under \u00a71915(b) of the Act: \u00a71915(b)(1)  (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.G. Concurrent Operation with Other Programs: Waiver(s) authorized under \u00a71915(b) of the Act: \u00a71915(b)(2)  (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.G. Concurrent Operation with Other Programs: Waiver(s) authorized under \u00a71915(b) of the Act: \u00a71915(b)(3)  (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.G. Concurrent Operation with Other Programs: Waiver(s) authorized under \u00a71915(b) of the Act: \u00a71915(b)(4)  (0 = No, 1= Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "1.G. Concurrent Operation with Other Programs: A program operated under \u00a71932(a) of the Act.": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "1.G. Concurrent Operation with Other Programs: A program authorized under \u00a71915(i) of the Act.": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "1.G. Concurrent Operation with Other Programs: A program authorized under \u00a71915(j) of the Act": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "1.G. A program authorized under \u00a71115 of the Act": {
+    "Header": "Section 1: Request Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "1.H. Dual Eligiblity for Medicaid and Medicare (0 = No, 1 =Yes)": {
+    "Header": "Section 1: Request Information",
+    "isInTable": true,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "2. Waiver Population (extract from Brief Waiver Description)": {
+    "Header": "Section 2: Brief Waiver Description",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "3.E. Participant-Direction of Services (0=No, 1=Yes)": {
+    "Header": "Section 3: Participant Access and Eligibility",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "4B. Income and Resources for the Medically Needy (NA if not applicable, 0=No, 1=Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "4C. Statewideness (0=No, 1=Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "4C. Statewideness is requested in order to make participant-direction of services (0=No, 1=Yes, leave blank if answer to the previous question is 0)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "B-1a Waiver Population: aged (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: aged (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: aged (minimum age). Leave age columns blank if the waiver does not serve this population ": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: aged (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: disabled, physical (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: disabled, physical (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: disabled, physical (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: disabled, physical (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: disabled, other (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: disabled, other (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: disabled, other (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: disabled, other (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: Brain Injury (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: Brain Injury (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: Brain Injury (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: Brain Injury (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: HIV/AIDS (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: HIV/AIDS (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: HIV/AIDS (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: HIV/AIDS (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: Medically Fragile (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: Medically Fragile (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: HIV/AIDS (minimum age).1": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: HIV/AIDS (maximum age).1": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: Technology Dependent (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: Technology Dependent (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: Technology Dependent (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: Technology Dependent (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: Autism (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: Autism (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: Autism (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: Autism (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: Developmental Disability (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: Developmental Disability (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: Developmental Disability (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: Developmental Disability (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a  Waiver Population: Intellectual Disability (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a  Waiver Population: Intellectual Disability (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: Intellectual Disability (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: Intellectual Disability (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: Mental Illness (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: Mental Illness (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: Mental Illness (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: Mental Illness (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1a Waiver Population: Serious Emotional Disturbance (0 = No; 1 = Yes) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-1a Waiver Population: Serious Emotional Disturbance (0 = No; 1 = Yes) "
+  },
+  "Waiver Population: Serious Emotional Disturbance (minimum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Waiver Population: Serious Emotional Disturbance (maximum age)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-1b Additional Criteria for waiver population": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-2a: Individual Cost Limit (0 = No Cost Limit; 1= Cost Limit in Excess of Institutional Costs; 2= Institutional Cost Limit; 3=Cost Limit Lower Than Institutional Costs)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-2a: Individual Cost Limit (0 = No Cost Limit; 1= Cost Limit in Excess of Institutional Costs; 2= Institutional Cost Limit; 3=Cost Limit Lower Than Institutional Costs)"
+  },
+  "B-3a: Unduplicated Number of Participants, Year 1": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-3a: Unduplicated Number of Participants, Year 2": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-3a: Unduplicated Number of Participants, Year 3": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-3a: Unduplicated Number of Participants, Year 4": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-3a: Unduplicated Number of Participants, Year 5": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-3c: Reserved Waiver Capacity (0 = No, 1= yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-3c: Reserved Waiver Capacity (If Yes to the previous question, describe the purpose)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-4a. State classification (1= 1634 state; 2=SSI Criteria state; 3=209(b) state)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-4a. State classification (1= 1634 state; 2=SSI Criteria state; 3=209(b) state)"
+  },
+  "B-4a. Miller Trust State. (0=Yes, 1=No)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-4b. Medicaid Eligibility Groups Served in the Waiver (There are many choices for this question. Please just copy and paste the selected one here)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "B-4b. Special home and community-based waiver group under 42 CFR \u00a7435.217 (0 = No; 1= Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: B-4b. Special home and community-based waiver group under 42 CFR \u00a7435.217 (0 = No; 1= Yes)"
+  },
+  "Transition 1: Transition to Waiver Services Tab to code specific services": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "C-1b. Provision of Case Management Services to Waiver Participants (0 = not applicable; 1= applicable)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: C-1b. Provision of Case Management Services to Waiver Participants (0 = not applicable; 1= applicable)"
+  },
+  "C-1b. Provision of Case Management Services to Waiver Participants (If Yes to care management services) As a waiver service defined in Appendix C-3.)": {
+    "Header": "Appendix B",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "C-1b. Provision of Case Management Services to Waiver Participants (If Yes to care management services) As a Medicaid state plan service under \u00a71915(i) of the Act (HCBS as a State Plan Option).": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "C-1b. Provision of Case Management Services to Waiver Participants (If Yes to care management services) As a Medicaid state plan service under \u00a71915(g)(1) of the Act (Targeted Case Management).": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "C-1b. Provision of Case Management Services to Waiver Participants (If Yes to care management services) As an administrative activity.": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "C-1b. Provision of Case Management Services to Waiver Participants (If Yes to care management services) As a primary care case management system service under a concurrent managed care authority": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "C-2d. Provision of Personal Care or Similar Services by Legally Responsible Individuals. (0 = No payment to legally responsible individuals for furnishing personal care or similar services. 1=Yes)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "D-1.a. Responsibility for Service Plan Development, Registered nurse, licensed to practice in the state": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the full state name."
+  },
+  "D-1.a. Responsibility for Service Plan Development, Licensed practical or vocational nurse, acting within the scope of practice under state law": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the full state name."
+  },
+  "D-1.a. Responsibility for Service Plan Development, Licensed physician (M.D. or D.O)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "D-1.a. Responsibility for Service Plan Development, Case Manager (qualifications specified in Appendix C-1/C-3)": {
+    "Header": "Appendix B",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "D-1.a. Responsibility for Service Plan Development, Case Manager (qualifications not specified in Appendix C-1/C-3).": {
+    "Header": "Appendix B",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "D-1.a. Responsibility for Service Plan Development, Social Worker": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "D-1.a. Responsibility for Service Plan Development, Other": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Participant direction opportunities (0 = No, 1=Yes)": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": true,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Independence Plus designation (0 = not requsted; 1= requested) ": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: Independence Plus designation (0 = not requsted; 1= requested) "
+  },
+  "E-1b Participant direction opportunities? (employer authority (code as 1), budget authority (code as 2), both (code as 3))": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1c Availability of Participant Direction by Type of Living Arrangement. (1 = private residence or the home of a family member; 2= reside in other living arrangements < 4 persons; 3 = other)": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: E-1c Availability of Participant Direction by Type of Living Arrangement. (1 = private residence or the home of a family member; 2= reside in other living arrangements < 4 persons; 3 = other)"
+  },
+  "E-1c Availability of Participant Direction by Type of Living Arrangement (specify when E-1c = 2)": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1f Use of representative for PD (0 =representative not allowed; 1= representative allowed)": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: E-1f Use of representative for PD (0 =representative not allowed; 1= representative allowed)"
+  },
+  "E-1f Use of representative for PD (1= legal representative; 2=non-legal representative; 3 = both) Only if E-1f = 1": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: E-1f Use of representative for PD (1= legal representative; 2=non-legal representative; 3 = both) Only if E-1f = 1"
+  },
+  "Transition 3: Transition to Waiver Services, column J": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1h Financial Management Services [FMS] (0 = no financial management services; 1=have financial management services)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: E-1h Financial Management Services [FMS] (0 = no financial management services; 1=have financial management services)"
+  },
+  "E-1h FMS by government entities (==1) or private entities (==2), or Both (==3)": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1i FMS are covered as the waiver services (==1) or as an administrative activity (==2)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Scope of FMS Employment authority: Assist participant in verifying support worker citizenship status (0 = No, 1= Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Scope of FMS Employment authority: Collect and process timesheets of support workers (0 = No, 1= Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Scope of FMS Employment authority: Process payroll, withholding, filing and payment of applicable federal, state and local employment-related taxes and insurance (0 = No, 1= Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Scope of FMS Employment authority: Other (0 = No, 1= Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Scope of FMS Employment authority: Other specify (Let's SKIP this for now)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Scope of FMS Budget authority: Maintain a separate account for each participant's participant-directed budget (0 = No, 1= Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Scope of FMS Budget authority: Track and report participant funds, disbursements and the balance of participant funds (0 = No, 1= Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Scope of FMS Budget authority: Process and pay invoices for goods and services approved in the service plan (0 = No, 1= Yes)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Scope of FMS Budget authority: Provide participant with periodic reports of expenditures and the status of the participant-directed budget (0 = No, 1= Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Scope of FMS Budget authority: Other (0 = No, 1= Yes)": {
+    "Header": "General Information",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Scope of FMS Budget authority: Other specify (Let's SKIP this for now)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Scope of FMS, additional funcitions and activities: Execute and hold Medicaid provider agreements as authorized under a written agreement with the Medicaid agency": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Scope of FMS, additional funcitions and activities: Receive and disburse funds for the payment of participant-directed services under an agreement with the Medicaid agency or operating agency": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Scope of FMS, additional funcitions and activities: Provide other entities specified by the state with periodic reports of expenditures and the status of the participant-directed budget": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Scope of FMS, additional funcitions and activities: Other": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Scope of FMS, additional funcitions and activities: Other specify (Let's SKIP this for now)": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1j Information and Assistance in Support of Participant Direction: Case Management Activity (0=No, 1=Yes)": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "E-1j Information and Assistance in Support of Participant Direction: Waiver Service Coverage (0=No, 1=Yes)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "Transition 5: If answer to the previous question is Yes, transition to Waiver Services tab column L": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1j Information and Assistance in Support of Participant Direction: Administrative Activity (0=No, 1=Yes)": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "E-1k Independent Advocacy (0=No, 1=Yes)": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": true,
+    "context": "Binary field. Extract 0 for No, 1 for Yes."
+  },
+  "E-1n Goals for Participant Direction. Employer Authority, Year 1": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1n Goals for Participant Direction. Employer Authority, Year 2": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1n Goals for Participant Direction. Employer Authority, Year 3": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1n Goals for Participant Direction. Employer Authority, Year 4": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1n Goals for Participant Direction. Employer Authority, Year 5": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1n Goals for Participant Direction. Budget Authority only or combined with Employer Authority, Year 1": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1n Goals for Participant Direction. Budget Authority only or combined with Employer Authority, Year 2": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1n Goals for Participant Direction. Budget Authority only or combined with Employer Authority, Year 3": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1n Goals for Participant Direction. Budget Authority only or combined with Employer Authority, Year 4": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-1n Goals for Participant Direction. Budget Authority only or combined with Employer Authority, Year 5": {
+    "Header": "Appendix E: Participant Direction",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Transition 7: Go to PD authority tab": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "E-2b Participant Exercise of Budget Flexibility (1=Modifications to the participant directed budget must be preceded by a change in the service plan; 2=The participant has the authority to modify the services included in the participant directed budget without prior approval)": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": true,
+    "context": "Coded field. Extract the numeric code based on the document value. Field definition: E-2b Participant Exercise of Budget Flexibility (1=Modifications to the participant directed budget must be preceded by a change in the service plan; 2=The participant has the authority to modify the services included in the participant directed budget without prior approval)"
+  },
+  "Unduplicated Participants Level of care, hospital, Year 1": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, Nursing Facility, Year 1": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, ICF/IID, Year 1": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, hospital, Year 2": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, Nursing Facility, Year 2": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, ICF/IID, Year 2": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, hospital, Year 3": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, Nursing Facility, Year 3": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, ICF/IID, Year 3": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, hospital, Year 4": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, Nursing Facility, Year 4": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, ICF/IID, Year 4": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, hospital, Year 5": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, Nursing Facility, Year 5": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Unduplicated Participants Level of care, ICF/IID, Year 5": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Transition 9: Transition to Waiver Services. Column N": {
+    "Header": "Appendix C: Participant Services",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Total spending, Year 1": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Total spending, Year 2": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Total spending, Year 3": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Total spending, Year 4": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  },
+  "Total spending, Year 5": {
+    "Header": "General Information",
+    "isInTable": false,
+    "context": "Extract the value for this field as it appears in the document."
+  }
+}

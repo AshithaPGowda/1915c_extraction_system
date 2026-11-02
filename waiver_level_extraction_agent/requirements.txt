@@ -1,0 +1,15 @@
+# Install from the project root:  pip install -r waiver_level_extraction_agent/requirements.txt
+# Also needs the poppler system tool (for pdf2image): macOS "brew install poppler",
+# Ubuntu/Debian "sudo apt install poppler-utils", Windows: install poppler and add it to PATH.
+google-adk==2.0.0  # the version the guide screenshots were taken with
+google-cloud-storage
+python-dotenv>=1.0.0
+chromadb
+pandas
+pdfplumber>=0.10.0
+pypdf
+PyMuPDF
+pdf2image
+httpx
+PyYAML>=6.0
+pydantic>=2.8.0

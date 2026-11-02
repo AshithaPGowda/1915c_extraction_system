@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Waiver-Level Extraction in ADK Mode: User Guide</title>
+<style>
+  @page { size: Letter; margin: 0.65in 0.7in 0.75in 0.7in; @bottom-center { content: counter(page); font-size: 12pt; color: #5a6675; } }
+  @page :first { @bottom-center { content: none; } }
+  :root { --ink:#1b2430; --muted:#5a6675; --line:#d5dbe3; --accent:#1f5fa8; --warnbg:#fdecea; --warn:#a4262c; --tipbg:#eaf3fb; --notebg:#f4f6f9; }
+  * { box-sizing: border-box; }
+  body { font-family: "Times New Roman", Times, serif; color: var(--ink); font-size: 12pt; line-height: 1.35; margin: 0; }
+  h1,h2,h3,h4 { line-height: 1.25; break-after: avoid; }
+  h2 { font-size: 18pt; margin: 0 0 0.5em; break-after: avoid; padding-top: 0.2em; border-bottom: 2px solid var(--accent); padding-bottom: 0.2em; }
+  h3 { font-size: 14pt; margin: 1.5em 0 0.4em; color: var(--accent); }
+  h4 { font-size: 12pt; margin: 1.1em 0 0.3em; }
+  section.chapter { margin-top: 2em; }
+  #s1 { break-before: page; margin-top: 0; }
+  p { margin: 0.6em 0; }
+  code, pre, kbd { font-family: "Courier New", Courier, monospace; font-size: 11pt; }
+  code { background: #eef1f5; padding: 0.05em 0.3em; border-radius: 3px; }
+  pre { background: #0f1720; color: #e6edf3; padding: 0.7em 0.9em; border-radius: 6px; white-space: pre-wrap; word-break: break-word; break-inside: avoid; margin: 0.8em 0; }
+  pre.long { break-inside: auto; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .box { border-radius: 6px; padding: 0.6em 0.9em; margin: 1.1em 0; break-inside: avoid; border-left: 5px solid; }
+  .box.warn { background: var(--warnbg); border-color: var(--warn); }
+  .box.tip  { background: var(--tipbg);  border-color: var(--accent); }
+  .box.note { background: var(--notebg); border-color: var(--muted); }
+  .box .t { font-weight: 700; display: block; margin-bottom: 0.15em; }
+  table { border-collapse: collapse; width: 100%; margin: 0.9em 0; font-size: 12pt; break-inside: auto; }
+  th, td { border: 1px solid var(--line); padding: 0.3em 0.5em; vertical-align: top; text-align: left; }
+  th { background: #eef2f7; }
+  tr { break-inside: avoid; } tr:has(th) { break-after: avoid; }
+  figure { margin: 1em 0; break-inside: avoid; counter-increment: fig; }
+  figure img { width: 100%; max-height: 2.4in; object-fit: contain; object-position: top left; background:#0f1720; border: 1px solid var(--line); border-radius: 4px; display: block; }
+  p:has(+ table) { break-after: avoid; }
+  h3 + p, h3 + ul, h3 + ol { break-before: avoid; }
+  figcaption { font-size: 12pt; color: var(--muted); margin-top: 0.3em; }
+  figcaption::before { content: "Figure " counter(fig) ". "; font-weight: 700; color: var(--ink); }
+  body { counter-reset: fig; }
+  ol.steps { padding-left: 1.3em; } ol.steps li { margin: 0.4em 0; }
+  ul { margin: 0.5em 0; padding-left: 1.3em; }
+  /* cover */
+  .cover { height: 8.6in; display: flex; flex-direction: column; justify-content: center; }
+  .cover h1 { font-size: 30pt; margin: 0 0 0.2em; }
+  .cover .sub { font-size: 14pt; color: var(--muted); margin-bottom: 1.6em; }
+  .cover .meta { color: var(--muted); font-size: 12pt; line-height: 1.5; }
+  /* toc */
+  .toc { break-before: page; }
+  .toc h2 { border: 0; }
+  .toc ul { list-style: none; padding: 0; }
+  .toc li { display: flex; gap: 0.5em; padding: 0.1em 0; }
+  .toc li.l2 { font-weight: 700; margin-top: 0.5em; }
+  .toc li.l3 { padding-left: 1.6em; }
+  .toc a { color: inherit; text-decoration: none; }
+  .toc .dots { flex: 1; border-bottom: 1px dotted #9aa5b4; transform: translateY(-0.3em); }
+  .small { font-size: 12pt; color: var(--muted); }
+  .credits { font-weight: 800; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Waiver-Level Extraction: ADK Mode and Pipeline Mode</h1>
+  <div class="sub">A step-by-step guide: from installing the tool to extracting, reviewing and saving waiver data</div>
+  <div class="box warn" style="max-width:5.6in">
+    <span class="t">IMPORTANT: THIS TOOL NEEDS GOOGLE CLOUD CREDITS OR A BILLING ACCOUNT.</span>
+    <b>Every extraction sends the waiver PDF to a Gemini model on your Google Cloud project, and that usage is charged to the project's billing account. Make sure billing is enabled, or that you have free credits, before your first run.</b> See section 2.2.
+  </div>
+  <div class="meta">Covers: the waiver-level app (<code>waiver_level_extraction_agent</code>), used through the ADK web interface (ADK mode) and from the command line (pipeline mode). Service-level extraction has its own guide.<br>
+  Tested with: macOS, Python 3.12, Google ADK 2.0.0, Gemini 3.7 Flash, Google Chrome. <b>Not tested on Windows.</b><br>
+  Guide written: October 19, 2026<br>
+  Updated: November 1, 2026</div>
+</div>
+
+<div class="toc">
+  <h2>Table of contents</h2>
+  <!--TOC-->
+</div>
+
+<section class="chapter" id="s1">
+<h2>1. What this tool does</h2>
+<p>1915(c) Home and Community-Based Services (HCBS) waiver applications are long PDF documents (the example used in this guide, waiver <b>PA0324R0600</b> from Pennsylvania, is 125 pages, which is on the smaller side: the 267 waivers in the project's collection range from about 119 to 610 pages, with a median of about 249). This tool reads one waiver PDF and fills in a standard list of <b>163 fields</b> (for example the state, the waiver title, level of care, participant direction, financial eligibility and quality improvement items).</p>
+<p>The 163 fields are defined in a <b>layout file</b>, <code>waiver_level_extraction_agent/data/layouts/layout_waiver_overview.json</code>. For each field it holds the section of the waiver where the field appears, whether the value is usually in a table, and a short description of what to extract. The tool is built for the standard 1915(c) waiver application and this list of fields; using it for other kinds of documents or other field lists is outside what this guide covers.</p>
+<p>For every field it fills in, the tool also shows <b>where it found the answer</b>: the PDF page number and the exact wording from the document. You review each result and decide what is kept. Section 7.2 explains when the results spreadsheet is written.</p>
+
+<h3 id="s1-1">1.1 The two ways to use the tool (both covered here)</h3>
+<table>
+<tr><th style="width:24%">Mode</th><th>What it is</th><th>Best for</th></tr>
+<tr><td><b>ADK mode</b> (this guide)</td><td>A chat window in your web browser. You type plain-English requests and the tool answers, one waiver at a time.</td><td>Reviewing a waiver, fixing individual fields, extracting an extra value that is not on the standard list.</td></tr>
+<tr><td><b>Pipeline mode</b> (section 9)</td><td>Commands typed in a terminal that process one waiver or many waivers in a row, with no chat and no review step.</td><td>Large batches, where you check the results afterwards.</td></tr>
+</table>
+
+<h3 id="s1-2">1.2 What this guide covers, and what it does not</h3>
+<ul>
+<li><b>Covered:</b> setting up, starting the app, extracting one waiver, reading and correcting the review table, saving to the results CSV, extracting a custom value, and running the same extraction from the command line (pipeline mode).</li>
+<li><b>Not covered:</b> service-level extraction (services, provider qualifications, rate methods). That is a different app, <code>services_extraction_agent</code>, with its own guide.</li>
+</ul>
+</section>
+
+<section class="chapter" id="s2">
+<h2>2. Before you start</h2>
+<h3 id="s2-1">2.1 What you need</h3>
+<table>
+<tr><th style="width:30%">Item</th><th>Details</th></tr>
+<tr><td>A computer</td><td>macOS was used for everything in this guide. Linux commands are given but were not run. <b>This project has not been tested on Windows</b> (see the warning below).</td></tr>
+<tr><td>Python 3.10 or newer</td><td>Check with <code>python3 --version</code>. This guide was tested with Python 3.12.</td></tr>
+<tr><td>A personal Google account</td><td>Your own account, with your own Google Cloud project (see the note on institutional accounts below).</td></tr>
+<tr><td>A Google Cloud project with billing</td><td>See 2.2 below. You will need the project's <b>ID</b>.</td></tr>
+<tr><td>Google Chrome (recommended)</td><td>The chat window runs in a web browser. Chrome was used for every screenshot here.</td></tr>
+<tr><td>The project folder</td><td>The code, plus the waiver PDFs you want to process.</td></tr>
+<tr><td>poppler</td><td>A small system tool used to read PDF page images. Installed in section 3.4.</td></tr>
+</table>
+
+<div class="box warn"><span class="t">Not tested on a Windows laptop</span>Everything in this guide was run and checked on macOS. The commands and behaviour on Windows have <b>not</b> been tested, so some steps may fail or need changes. Windows alternatives are shown in places but are untested. If you use Windows, consider Windows Subsystem for Linux (WSL), and expect to troubleshoot.</div>
+<div class="box note"><span class="t">Work, school or institutional Google accounts</span>If you sign in with an account from an organization, the organization may restrict what you can do. You may need an administrator to give you access to a project, enable billing, or enable specific APIs (such as Vertex AI). <b>Those steps are not covered in this guide.</b> The guide assumes you run the extraction in your <b>own</b> Google account and your own Google Cloud project.</div>
+<h3 id="s2-2">2.2 Credits and billing</h3>
+<div class="box warn"><span class="t credits">THESE TOOLS NEED CREDITS. EXTRACTION IS NOT FREE.</span>
+<b>Each extraction makes many calls to Google's Gemini models through Vertex AI, and Google charges for them. The charges go to the billing account attached to your Google Cloud project. If billing is not enabled, or your credits have run out, extraction will fail.</b></div>
+<ul>
+<li>According to Google's documentation, new Google Cloud customers can receive free trial credit (<b>$300, valid for 90 days</b> at the time of writing). The trial ends when the credit is used up or 90 days pass, whichever is first. Check Google's page for the current terms.</li>
+<li>Vertex AI setup requires billing to be enabled on the project.</li>
+<li>Prices change. <b>Check the live pricing page before large runs:</b> <code>cloud.google.com/vertex-ai/pricing</code>. This guide does not quote dollar prices because they would go out of date.</li>
+<li>How much one waiver costs depends on its length and on how many fields need a second look. A full extraction of the 125-page test waiver took about <b>6 minutes</b> and many model calls; a single custom value took about <b>20 to 30 seconds</b> and one call.</li>
+<li>Watch your spend in the Google Cloud console under <b>Billing</b>, and consider setting a budget alert there.</li>
+</ul>
+<p class="small">Google's own instructions for this: <i>Set up a project and a development environment</i> (docs.cloud.google.com/vertex-ai/docs/start/cloud-environment) and the <i>Billing questions</i> page for Vertex AI. See Appendix B for links.</p>
+</section>
+
+<section class="chapter" id="s3">
+<h2>3. Install and set up</h2>
+<p>You only do this section once per computer. Commands are shown for macOS and Linux. Type them in the <b>Terminal</b> app. Lines starting with <code>#</code> are comments and are not typed.</p>
+<div class="box tip"><span class="t">Prefer to have an AI assistant help?</span>If you already work with an AI assistant, Appendix E has a ready-to-paste prompt that walks it through this setup safely.</div>
+
+<h3 id="s3-1">3.1 Get the project folder</h3>
+<pre><code># Download the project (replace the address with your repository's address)
+git clone &lt;repository-url&gt; 1915c_extraction_agent
+cd 1915c_extraction_agent</code></pre>
+<p>All later commands are run from inside this folder, called the <b>project root</b>. It contains <code>run_pipeline.py</code>, <code>waiver_level_extraction_agent/</code>, <code>services_extraction_agent/</code> and <code>data/</code>.</p>
+
+<h3 id="s3-2">3.2 Create a private Python environment</h3>
+<pre><code>python3 -m venv .venv
+source .venv/bin/activate          # macOS / Linux
+# Windows PowerShell:  .venv\Scripts\Activate.ps1</code></pre>
+<p>When the environment is active, your terminal prompt starts with <code>(.venv)</code>. You must activate it again each time you open a new terminal.</p>
+
+<h3 id="s3-3">3.3 Install the Python packages</h3>
+<pre><code>pip install -r waiver_level_extraction_agent/requirements.txt</code></pre>
+<p>This installs the ADK itself (pinned to version 2.0.0, the version this guide's screenshots come from), the Google cloud libraries, and the PDF-reading libraries. It takes a few minutes.</p>
+
+<h3 id="s3-4">3.4 Install poppler</h3>
+<table>
+<tr><th style="width:25%">System</th><th>Command</th></tr>
+<tr><td>macOS (Homebrew)</td><td><code>brew install poppler</code></td></tr>
+<tr><td>Ubuntu / Debian</td><td><code>sudo apt install poppler-utils</code></td></tr>
+<tr><td>Windows</td><td>Download a poppler build, unzip it, and add its <code>bin</code> folder to your PATH.</td></tr>
+</table>
+
+<h3 id="s3-5">3.5 Install the Google Cloud command-line tool and sign in</h3>
+<ol class="steps">
+<li>Install the <b>gcloud CLI</b> from Google's page: <code>cloud.google.com/sdk/docs/install</code>.</li>
+<li>Sign in so that the tool can use your Google account. This sets up <b>Application Default Credentials (ADC)</b>:
+<pre><code>gcloud auth application-default login</code></pre>
+A browser window opens. Choose your Google account and allow access. When it finishes, the terminal confirms where the credentials file was saved.</li>
+<li>Do <b>not</b> set the <code>GOOGLE_APPLICATION_CREDENTIALS</code> variable. Google's documentation says that variable overrides the credentials you just created.</li>
+</ol>
+
+<h3 id="s3-6">3.6 Find your Google Cloud project ID, enable billing and turn on Vertex AI</h3>
+<ol class="steps">
+<li>Open the Google Cloud console (<code>console.cloud.google.com</code>) and sign in.</li>
+<li>Click the <b>project picker</b> at the top of the page and choose your project. The project's <b>name</b>, <b>number</b> and <b>ID</b> are shown on the console's Welcome page, and also on the Home page under "Project info".</li>
+<li>Copy the <b>ID</b>, not the name and not the number. A project ID is made of lowercase letters, numbers and hyphens, for example <code>my-waiver-project-123456</code>. It can be chosen when the project is created and cannot be changed afterwards.</li>
+<li>Make sure <b>billing</b> is enabled for this project (see 2.2). If you use an organization's account, an administrator may have to do this for you; that case is not covered here.</li>
+<li>Turn on the Vertex AI API for the project, either in the console's API library or with:
+<pre><code>gcloud services enable aiplatform.googleapis.com --project=YOUR_PROJECT_ID</code></pre></li>
+</ol>
+<p>Google's own documentation has pictures and the current click paths for finding your project ID. The links are in Appendix B.</p>
+<p>You can also list your projects from the terminal: <code>gcloud projects list</code> prints each project's name, ID and number.</p>
+
+<h3 id="s3-7">3.7 Create your <code>.env</code> file</h3>
+<p>The <code>.env</code> file holds your personal settings. It is never shared or uploaded. Copy the template that comes with the project:</p>
+<pre><code>cp waiver_level_extraction_agent/.env.example waiver_level_extraction_agent/.env</code></pre>
+<p>Open <code>waiver_level_extraction_agent/.env</code> in any text editor and replace the two highlighted values with <b>your project ID</b> from 3.6:</p>
+<pre><code>PROJECT_ID=<b style="color:#ffd166">your-project-id</b>
+GOOGLE_CLOUD_PROJECT=<b style="color:#ffd166">your-project-id</b>
+GOOGLE_GENAI_USE_VERTEXAI=TRUE
+LOCATION=us-central1</code></pre>
+<div class="box warn"><span class="t">These two lines must be the same value</span><code>PROJECT_ID</code> is read by the batch scripts and <code>GOOGLE_CLOUD_PROJECT</code> is read by the ADK web app. If they differ, or if you leave the placeholder <code>your-project-id</code>, the tool stops at start-up and prints a message telling you what to fix. If only one is set, the tool copies it to the other.</div>
+<p>Everything else in the file can stay as it is. Appendix A explains each setting. <b>Never email, upload or commit your <code>.env</code> file.</b></p>
+</section>
+
+<section class="chapter" id="s4">
+<h2>4. Start the app and open it in your browser</h2>
+<h3 id="s4-1">4.1 Start it</h3>
+<p>In a terminal opened in the project root, with the environment active (the prompt starts with <code>(.venv)</code>):</p>
+<pre><code>adk web . --port 8000</code></pre>
+<p>Wait until the terminal prints a line like <code>Uvicorn running on http://127.0.0.1:8000</code>. <b>Leave this terminal window open.</b> The app stops if you close it. The terminal also prints a running log, which is the first place to look if something seems stuck.</p>
+<h3 id="s4-2">4.2 Open the page</h3>
+<p>Open Google Chrome and go to <code>http://127.0.0.1:8000</code>. You will see the ADK welcome page (Figure 1). This page exists only on your own computer; no one else can open it.</p>
+<figure><img src="../pdf_images/adk_00_welcome_before_selecting_app.jpg"><figcaption>The ADK welcome page, before any app is selected.</figcaption></figure>
+<h3 id="s4-3">4.3 Choose the waiver app</h3>
+<p>Click <b>Select an app</b> at the top left. A list of apps appears (Figure 2). Choose <b><code>waiver_level_extraction_agent</code></b>.</p>
+<figure><img src="../pdf_images/adk_01_app_picker.jpg"><figcaption>The app list. Choose waiver_level_extraction_agent. The entry called "data" is just the data folder and can be ignored.</figcaption></figure>
+<div class="box note"><span class="t">Other entries in the list</span><code>services_extraction_agent</code> is the service-level app (its own guide). <code>analytics_agent</code> answers questions about past runs. <code>data</code> is not an app.</div>
+<h3 id="s4-4">4.4 Stop the app</h3>
+<p>Click in the terminal window and press <b>Ctrl+C</b>. Your saved results are not affected.</p>
+</section>
+
+<section class="chapter" id="s5">
+<h2>5. A tour of the screen</h2>
+<p>After choosing the waiver app you see an empty chat (Figure 3).</p>
+<figure><img src="../pdf_images/adk_03_waiver_agent_empty_chat.jpg"><figcaption>The waiver app, ready for your first message.</figcaption></figure>
+<table>
+<tr><th style="width:28%">Part of the screen</th><th>What it does</th></tr>
+<tr><td><b>Message box</b> (bottom)</td><td>Type your request and press <b>Enter</b>. Everything is plain English.</td></tr>
+<tr><td><b>New Session</b> (top)</td><td>Starts a fresh conversation. Use this when you move to a different waiver. Results already saved to files are not lost.</td></tr>
+<tr><td><b>Events / Traces</b> (top of the chat)</td><td><b>Events</b> shows the conversation and each step the tool takes (grey tool-call chips). <b>Traces</b> shows how long each step took (see 5.1).</td></tr>
+<tr><td><b>Info, State, Artifacts, Evals</b> tabs (left)</td><td><b>Info</b> shows details of whichever event you click. <b>State</b> shows the data the session is holding in memory (see the note below). <b>Artifacts</b> and <b>Evals</b> are ADK developer features that this tool does not use; you can ignore them.</td></tr>
+</table>
+<h3 id="s5-1">5.1 Checking what happened: the Traces view</h3>
+<p>Click <b>Traces</b> to see each model call and how long it took (Figure 4). This is useful when a step feels slow, and for seeing exactly how many model calls a request made, which is the number that drives cost.</p>
+<figure><img src="../pdf_images/tabs_01_traces_view.jpg"><figcaption>The Traces view. Each blue bar is one step; "call_llm" lines are calls to the Gemini model.</figcaption></figure>
+<div class="box note"><span class="t">The State tab shows file paths from your computer</span>The State tab lists the extracted fields and also the full location of the PDF on your computer. Keep that in mind before sharing a screenshot of it.</div>
+<h3 id="s5-2">5.2 Ask the tool what it can do</h3>
+<p>Type <code>Hi, what can you do?</code> The tool replies with a summary (Figures 5 and 6). It confirms that it works with the <b>163 fields</b> in the layout file.</p>
+<figure><img src="../pdf_images/adk_04_capabilities_reply_top.jpg"><figcaption>The first part of the reply.</figcaption></figure>
+<figure><img src="../pdf_images/adk_05_capabilities_reply_end.jpg"><figcaption>The rest of the reply, including how to get started.</figcaption></figure>
+</section>
+
+<section class="chapter" id="s6">
+<h2>6. Extract a waiver</h2>
+<h3 id="s6-1">6.1 Tell the tool which waiver</h3>
+<p>You can identify the waiver in three ways:</p>
+<ul>
+<li>By <b>waiver key</b>, for example <code>Extract PA0324R0600</code>. The tool looks for the PDF in the default PDF folder (<code>data/pdfs_267_latest</code>).</li>
+<li>By <b>path to a PDF file</b>, anywhere on your computer.</li>
+<li>By <b>path to a folder</b> of PDFs, when you want the tool to list what is there.</li>
+</ul>
+<p>Waiver keys look like <code>PA0324R0600</code>: the state code, a number, and the revision.</p>
+<div class="box tip"><span class="t">Starting a new session for each waiver</span>Click <b>New Session</b> before starting a different waiver, so values from the previous waiver cannot get mixed in.</div>
+
+<h3 id="s6-2">6.2 Watch it work</h3>
+<p>Type <code>Extract PA0324R0600</code> and press Enter. The tool hands the job through a series of specialist steps. You can watch them appear as grey chips in the chat (Figures 7 and 8):</p>
+<table>
+<tr><th style="width:30%">Step (tool name)</th><th>What it does</th></tr>
+<tr><td><code>prepare_waiver</code></td><td>Opens the PDF and works out which check boxes on the form are ticked.</td></tr>
+<tr><td><code>extract_overview_fields</code></td><td>Asks the Gemini model to fill in all 163 fields from the whole document. This is the longest single step (about 100 seconds for the 125-page test waiver).</td></tr>
+<tr><td><code>critique_overview</code> (critic)</td><td>A second pass that checks the answers against the quoted evidence and, where the PDF has form data, against that data, and flags fields that look wrong.</td></tr>
+<tr><td>Re-extraction (only if needed)</td><td>Re-reads fields the critic flagged, up to two more times.</td></tr>
+<tr><td>Normalisation and <code>finalize_waiver</code></td><td>Tidies values (for example turns "Yes/No" boxes into 1 or 0) and saves the result files.</td></tr>
+<tr><td><code>review_extraction</code></td><td>Builds the review table you will check.</td></tr>
+</table>
+<figure><img src="../pdf_images/adk_06_extraction_started_tool_calls.jpg"><figcaption>Seconds after sending the request: the tool has handed over to the extraction specialist and is working through its steps.</figcaption></figure>
+<figure><img src="../pdf_images/adk_06b_pipeline_steps_critic_normalise_finalize.jpg"><figcaption>Later in the same run: the critic, normalisation and finalising steps.</figcaption></figure>
+<div class="box tip"><span class="t">If it seems stuck</span>A full extraction of the 125-page test waiver took about <b>6 minutes</b>, and a moving progress bar means the tool is still working. If a run stops part-way, type <code>resume</code>: the tool picks up where it left off instead of redoing everything. If nothing has appeared after several minutes, look at the terminal log (see section 12).</div>
+
+<h3 id="s6-3">6.3 The summary and the first page of results</h3>
+<p>When the run finishes, the tool prints a short summary, then the first page of the review table (Figure 9).</p>
+<figure><img src="../pdf_images/adk_07_extraction_summary_and_table_top.jpg"><figcaption>The summary box and the start of the review table.</figcaption></figure>
+<p>In the summary box:</p>
+<ul>
+<li><b>Status: human_review_required</b> means a person needs to check the result. This is the normal outcome.</li>
+<li><b>Fields extracted</b> is how many of the 163 fields have a value (69 for this waiver).</li>
+<li><b>Accuracy</b> and <b>AcroForm corrections</b> come from the automatic checker, which compares the answers with the PDF's own form data (AcroForm). This test waiver has no form data, so there was nothing to verify against and Accuracy shows 0.0 (0%) with 0 corrections. For a PDF like this, judge each result by its quoted evidence.</li>
+<li><b>Output</b> is the folder where the result files were written.</li>
+</ul>
+</section>
+
+<section class="chapter" id="s7">
+<h2>7. Review and correct the results</h2>
+<h3 id="s7-1">7.1 How to read the review table</h3>
+<table>
+<tr><th style="width:12%">Column</th><th>Meaning</th></tr>
+<tr><td><b>#</b></td><td>The field's position among all 163 fields. The number never changes, even when you filter, so you can always refer to a field by its number.</td></tr>
+<tr><td><b>Field</b></td><td>The field's name from the layout file (long names are shortened with "…").</td></tr>
+<tr><td><b>Value</b></td><td>What the tool extracted. <code>(empty)</code> means no value was found. For yes/no fields, 1 means Yes and 0 means No.</td></tr>
+<tr><td><b>Pg</b></td><td>The PDF page the answer came from.</td></tr>
+<tr><td><b>Evidence</b></td><td>The wording from the PDF. For check boxes it starts with <b>CHECKED</b> or <b>UNCHECKED</b> and the box's label, so you can see exactly which box was ticked.</td></tr>
+</table>
+<p>The table shows <b>50 rows at a time</b>. Under each page the tool states how many rows are shown and how many of the 163 fields are filled and empty. For the test waiver: <b>69 filled and 94 empty</b>. Many empty fields are normal. For example, if the waiver does not serve a population, its age range fields are empty and the evidence says so.</p>
+<figure><img src="../pdf_images/review_01_table_page1_options.jpg"><figcaption>The bottom of page 1 of the table (rows 1 to 50), the totals line, and the list of commands you can type next.</figcaption></figure>
+
+<h3 id="s7-2">7.2 Commands you can type</h3>
+<table>
+<tr><th style="width:34%">Type this</th><th>What happens</th></tr>
+<tr><td><code>show next page</code></td><td>Shows the next 50 rows.</td></tr>
+<tr><td><code>search participant direction</code></td><td>Shows only fields that match your words. You can also search by section number, such as <code>search 1.F</code>.</td></tr>
+<tr><td><code>show empty fields</code> / <code>show filled fields</code> / <code>show all</code></td><td>Filters the table.</td></tr>
+<tr><td><code>change 14 to 1</code></td><td>Replaces the value of field #14 with 1.</td></tr>
+<tr><td><code>reject 5</code></td><td>Blanks field #5 so it is saved as empty.</td></tr>
+<tr><td><code>re-extract 5</code></td><td>Reads the PDF again for field #5 (section 7.8).</td></tr>
+<tr><td><code>approve all</code></td><td>Accepts everything as shown and saves it.</td></tr>
+<tr><td><code>approve all except 5, 9</code> / <code>approve only 1-20</code></td><td>Accepts only part of the table.</td></tr>
+</table>
+<div class="box warn"><span class="t">Saving happens straight away</span><code>approve all</code>, <code>change</code> and <code>reject</code> each <b>write the results CSV immediately</b>. A <code>change</code> or <code>reject</code> keeps every other field as it was extracted, so after one of these commands the rest of the table has also been saved. Before every overwrite, the previous CSV is copied to <code>data/csv_backups/</code>, so nothing is lost.</div>
+
+<h3 id="s7-3">7.3 Moving through the table</h3>
+<p><code>show next page</code> shows rows 51 to 100 (Figure 11). Keep typing it to reach rows 101 to 150 and 151 to 163.</p>
+<figure><img src="../pdf_images/review_02_show_next_page_51_100.jpg"><figcaption>Page 2 of the table, rows 51 to 100.</figcaption></figure>
+<p>Each row's evidence helps you check the value. In Figure 12, the middle of page 1 shows check-box fields with their CHECKED / UNCHECKED evidence.</p>
+<figure><img src="../pdf_images/adk_08_review_table_middle.jpg"><figcaption>The middle of page 1: values, page numbers and evidence for rows 13 to 33.</figcaption></figure>
+
+<h3 id="s7-4">7.4 Searching</h3>
+<p>Type <code>search participant direction</code>. The tool shows only matching fields, here 17 of them, numbered by their position among all 163 (Figure 13).</p>
+<figure><img src="../pdf_images/review_03_search_participant_direction.jpg"><figcaption>Search results: 17 matching fields, and the command list for what to do next.</figcaption></figure>
+
+<h3 id="s7-5">7.5 Showing only the empty fields</h3>
+<p>Type <code>show empty fields</code> to see the 94 empty fields (Figure 14). This is the quickest way to check whether the tool missed anything that the PDF actually contains.</p>
+<figure><img src="../pdf_images/review_04_show_empty_fields.jpg"><figcaption>Empty fields only. The numbers still refer to each field's place among all 163.</figcaption></figure>
+
+<h3 id="s7-6">7.6 Changing a value</h3>
+<p>If a value is wrong and you know the right one, type <code>change 14 to 1</code>. The tool confirms what it edited (Figure 15), saves the updated result, writes the CSV, and backs up the previous files.</p>
+<figure><img src="../pdf_images/review_05_change_14_to_1_applied.jpg"><figcaption>A change applied. The original extraction is kept as overview.pre_review.json, and the old CSV is backed up.</figcaption></figure>
+<p>To undo a change, change the value back (for example <code>change 14 to 0</code>). Each change creates a new backup.</p>
+
+<h3 id="s7-7">7.7 Rejecting a value</h3>
+<p>If a value should not be used at all, type <code>reject 5</code>. The field is <b>blanked</b> and saved as empty (Figure 16).</p>
+<figure><img src="../pdf_images/review_06_reject_5_blanked.jpg"><figcaption>A rejection applied: field 5 is blanked and 68 fields are kept.</figcaption></figure>
+
+<h3 id="s7-8">7.8 Re-extracting a field with a hint</h3>
+<p>When you think the tool missed something, tell it where to look: <code>re-extract 5 (hint: Section 1.D, check which box is marked)</code>. The job goes to the re-extraction specialist, which reads the PDF again, and the tool shows the new answer with its evidence (Figure 17). It takes a minute or two.</p>
+<figure><img src="../pdf_images/review_07_reextract_5_result.jpg"><figcaption>Field 5 re-extracted: 1 (Regular Waiver), with page 1 evidence.</figcaption></figure>
+<p>You can add a hint to any re-extraction or retry, including for custom values (chapter 8). It is used only for that one attempt. After a re-extraction, check the new value and then approve, change or reject it.</p>
+
+<h3 id="s7-9">7.9 Approving and saving</h3>
+<p>When you are satisfied, type <code>approve all</code>. The tool saves the waiver's row to the results CSV (Figure 18).</p>
+<figure><img src="../pdf_images/review_08_approve_all_saved.jpg"><figcaption>Everything approved and saved to data/outputs/waiver_level_extraction.csv, with a backup of the previous file.</figcaption></figure>
+<p>The CSV holds <b>one row per waiver</b>. Approving the same waiver again <b>replaces its row</b> and leaves other waivers' rows untouched.</p>
+</section>
+
+<section class="chapter" id="s8">
+<h2>8. Extract a custom value</h2>
+<p>Sometimes you need something that is not one of the 163 standard fields, for example the <b>name of the case management agency</b>. The custom value feature extracts one such value from the PDF, shows you the evidence, and saves it separately. <b>It never changes the standard results.</b></p>
+<h3 id="s8-1">8.1 Ask for it</h3>
+<p>Type, for example, <code>Extract the case management agency name from PA0324R0600</code>. The tool first checks whether one of the 163 standard fields already covers it. If one does, it shows that row and asks whether you want it instead.</p>
+<h3 id="s8-2">8.2 Confirm what you are asking for</h3>
+<p>If the value is new, the tool shows a <b>confirmation card</b> (Figure 19) with its understanding of the request:</p>
+<ul>
+<li><b>Name</b>, <b>Meaning</b> and <b>Usually contains</b>: what the value is and what it normally looks like.</li>
+<li><b>Type</b>: text, number, yes/no (1 or 0), date or list.</li>
+<li><b>Where to look</b>: the appendix or section to start in.</li>
+<li><b>Allowed values</b>: a fixed list of answers, if there is one.</li>
+<li>The rule that <b>nothing is guessed</b>: if the PDF does not say it, the value is left blank.</li>
+</ul>
+<p>The tool fills in a suggestion for anything you did not say. If the card is wrong, tell the tool what to change in plain words (for example "the meaning should be the agency named in Appendix A"). You can also say <b>"you decide"</b> and let the tool propose sensible defaults. When the card is right, type <code>yes</code>.</p>
+<figure><img src="../pdf_images/custom_01_confirmation_card.jpg"><figcaption>The confirmation card. Nothing is extracted until you answer yes.</figcaption></figure>
+<h3 id="s8-3">8.3 The extraction</h3>
+<p>After <code>yes</code>, the tool makes <b>one model call</b> (usually 20 to 30 seconds) (Figure 20).</p>
+<figure><img src="../pdf_images/custom_02_confirmed_extracting.jpg"><figcaption>The extract_custom_value step running.</figcaption></figure>
+<h3 id="s8-4">8.4 Read the result</h3>
+<p>The result shows (Figures 21 and 22):</p>
+<ul>
+<li>the <b>value</b> and the <b>page</b> it was found on;</li>
+<li>the <b>evidence</b>: the exact wording from the PDF;</li>
+<li>the <b>confidence</b> and any <b>notes</b>;</li>
+<li><b>other occurrences</b>: if the same item appears elsewhere with a different value, the others are listed with their pages;</li>
+<li>four choices: <b>approve</b>, <b>change to &lt;value&gt;</b>, <b>retry</b> and <b>reject</b>.</li>
+</ul>
+<figure><img src="../pdf_images/custom_03_result_value_and_page.jpg"><figcaption>The extracted value, page and evidence quote.</figcaption></figure>
+<figure><img src="../pdf_images/custom_04_result_evidence_and_options.jpg"><figcaption>The notes, other occurrences on other pages, and the four choices.</figcaption></figure>
+<div class="box tip"><span class="t">Always check the evidence</span>In the test, the PDF named no specific agency: it said that local Infant Toddler Early Intervention programs "or contracted agencies" provide case management. The extracted value reflected that wording. When a document does not name a single answer, the honest answer is the wording the document uses, and the notes say so.</div>
+
+<h3 id="s8-5">8.5 Your four choices</h3>
+<table>
+<tr><th style="width:30%">Type</th><th>What happens</th></tr>
+<tr><td><code>approve</code></td><td>Saves the value to the waiver's <code>custom_extractions.json</code> and adds one row to <code>data/outputs/custom_extractions.csv</code>.</td></tr>
+<tr><td><code>change to &lt;your value&gt;</code></td><td>Saves the value you typed instead of the extracted one.</td></tr>
+<tr><td><code>retry</code></td><td>Runs the extraction again for this value.</td></tr>
+<tr><td><code>reject</code></td><td>Discards the result. Nothing is saved.</td></tr>
+</table>
+<h3 id="s8-6">8.6 Approving and where it is saved</h3>
+<p>Type <code>approve</code>. The tool reports both files it wrote (Figure 23).</p>
+<figure><img src="../pdf_images/custom_06_approved_saved.jpg"><figcaption>An approved custom value saved to the waiver's JSON file and to the custom values CSV.</figcaption></figure>
+<p>Each row in <code>custom_extractions.csv</code> has these columns: <code>waiver_key</code>, <code>label</code>, <code>value</code>, <code>page</code>, <code>evidence</code>, <code>confidence</code>, <code>description</code>, <code>value_type</code>, <code>model</code>, <code>extracted_at</code> and <code>approved_at</code>. Saving the same label for the same waiver again replaces that row.</p>
+</section>
+
+<section class="chapter" id="s9">
+<h2>9. Pipeline mode (command line)</h2>
+<p>Pipeline mode runs the same extraction without the chat window. You type a command in the terminal and it processes one waiver, or a whole folder of waivers, one after another.</p>
+<div class="box warn"><span class="t">No review step, and it costs credits</span>Pipeline mode does <b>not</b> stop for your approval: results are written straight to the files. <b>It calls the Gemini model many times per waiver and is billed to your Google Cloud project, so a large batch can use a lot of credits.</b> Start with one waiver, or with <code>--limit 2</code>, and check the results and your billing before running a batch.</div>
+
+<h3 id="s9-1">9.1 Before you run a command</h3>
+<p>Open a terminal in the project root and activate the environment (section 3.2). The same <code>.env</code> settings are used. If the project settings are wrong, the command stops at once with a message saying what to fix.</p>
+
+<h3 id="s9-2">9.2 Commands</h3>
+<table>
+<tr><th style="width:46%">Command</th><th>What it does</th></tr>
+<tr><td><code>python run_pipeline.py --waiver PA0324R0600</code></td><td>Extracts one waiver by its key. The PDF is looked up in the default folder (<code>data/pdfs_267_latest</code>) or in the folder given with <code>--dir</code>.</td></tr>
+<tr><td><code>python run_pipeline.py --file /path/to/waiver.pdf</code></td><td>Extracts one PDF from any location.</td></tr>
+<tr><td><code>python run_pipeline.py --dir /path/to/folder</code></td><td>Extracts every PDF in a folder (by default only the highest version of each waiver).</td></tr>
+<tr><td><code>python run_pipeline.py --limit 2</code></td><td>Stops after 2 PDFs. Use it to test.</td></tr>
+<tr><td><code>python run_pipeline.py --limit 10 --diverse</code></td><td>Picks PDFs from different states (use with <code>--limit</code>).</td></tr>
+<tr><td><code>--all-versions</code></td><td>Also processes older versions of a waiver, not only the highest one.</td></tr>
+<tr><td><code>--max-pages 500</code></td><td>Skips PDFs longer than this many pages (the default is 1000).</td></tr>
+<tr><td><code>--reprocess</code></td><td>Runs PDFs again even if they were already done. Without it, already-processed PDFs are skipped.</td></tr>
+<tr><td><code>--output-csv my_run.csv</code></td><td>Writes the results to this CSV instead of the default. A bare file name is placed in <code>data/outputs/</code>.</td></tr>
+</table>
+<p>You can combine options in one command. Section 9.3 shows how to read one.</p>
+
+<h3 id="s9-3">9.3 Reading a command in plain English</h3>
+<p>A pipeline command is several small instructions typed on one line. Each part that starts with two dashes (<code>--</code>) is an <b>option</b> that changes what the program does. Here is one command, taken apart:</p>
+<pre><code>python run_pipeline.py --dir ~/Desktop/new_pdfs --output-csv my_run.csv</code></pre>
+<table>
+<tr><th style="width:34%">Part</th><th>What it means</th></tr>
+<tr><td><code>python run_pipeline.py</code></td><td>"Run the extraction program." Every pipeline command starts this way.</td></tr>
+<tr><td><code>--dir ~/Desktop/new_pdfs</code></td><td>"Take the waiver PDFs from this folder." Here the folder is called <code>new_pdfs</code> and sits on your Desktop. The <code>~</code> is shorthand for your own home folder, so <code>~/Desktop/new_pdfs</code> means the <code>new_pdfs</code> folder on your Desktop. Without this option the program uses <code>data/pdfs_267_latest</code> inside the project.</td></tr>
+<tr><td><code>--output-csv my_run.csv</code></td><td>"Save the results in a spreadsheet file called <code>my_run.csv</code>." A file name with no folder is placed in <code>data/outputs/</code>. Without this option the results go to the default file, <code>data/outputs/waiver_level_extraction.csv</code>.</td></tr>
+</table>
+<p><b>Put together, it says:</b> <i>"Run the extraction on every waiver PDF in the new_pdfs folder on my Desktop, one after another, and save the results in data/outputs/my_run.csv instead of the usual results file."</i></p>
+<p>Two things the command does <b>not</b> say, because they are the defaults: if a folder holds several versions of the same waiver, only the highest version is processed, and a PDF that was already processed earlier is skipped. Add <code>--all-versions</code> or <code>--reprocess</code> to change either. You can add or remove options to build your own command; the order of the options does not matter.</p>
+
+<h3 id="s9-4">9.4 Results</h3>
+<p>Pipeline results go to the same places as in ADK mode (section 10): the waiver's folder in <code>data/outputs/</code>, the results CSV, and the log in <code>data/logs/</code>. The export step <b>only adds a waiver that is not yet in the CSV</b>. A waiver already in the CSV is not added again, even if you extract it again with <code>--reprocess</code>, so its row keeps the old values. To replace the row, run the export script with the <code style="white-space:nowrap">--force</code> option:</p>
+<pre><code>python data/archive/scripts/export_to_csv.py --waiver PA0324R0600 --force</code></pre>
+<p>You can also review and approve the waiver in ADK mode, or use <code style="white-space:nowrap">--output-csv</code> to write to a fresh file.</p>
+
+<h3 id="s9-5">9.5 Service-level extraction</h3>
+<p>Service-level data has its own command, <code>run_services_pipeline.py</code>, and its own guide.</p>
+</section>
+
+<section class="chapter" id="s10">
+<h2>10. Where your files are saved</h2>
+<p>All paths are inside the project folder.</p>
+<table>
+<tr><th style="width:42%">File or folder</th><th>What it holds</th></tr>
+<tr><td><code>data/outputs/waiver_level_extraction.csv</code></td><td>The approved waiver-level results. One row per waiver, 163 field columns plus <code>waiver_key</code>. Created (with just the header row) as soon as the app starts.</td></tr>
+<tr><td><code>data/outputs/custom_extractions.csv</code></td><td>Approved custom values, one row per waiver and label.</td></tr>
+<tr><td><code>data/outputs/&lt;KEY&gt;/overview.json</code></td><td>The waiver's current approved extraction, with evidence.</td></tr>
+<tr><td><code>data/outputs/&lt;KEY&gt;/overview.pre_review.json</code></td><td>The extraction as it was before your first change or rejection.</td></tr>
+<tr><td><code>data/outputs/&lt;KEY&gt;/custom_extractions.json</code></td><td>Custom values for this waiver, with notes and other occurrences.</td></tr>
+<tr><td><code>data/csv_backups/</code></td><td>A copy of the CSV taken before every overwrite.</td></tr>
+<tr><td><code>data/logs/&lt;KEY&gt;.jsonl</code></td><td>A step-by-step log of each run for that waiver.</td></tr>
+<tr><td><code>data/stages/&lt;KEY&gt;/</code></td><td>Saved progress after each stage, so an interrupted run can be resumed.</td></tr>
+</table>
+<div class="box note"><span class="t">Choosing a different results file</span>By default results go to the files above. To write to a different CSV file, ask the tool to use that file name when it saves. A bare file name is placed in <code>data/outputs/</code>. (This option is described in the project README and was not exercised for this guide.)</div>
+</section>
+
+<section class="chapter" id="s11">
+<h2>11. Good habits</h2>
+<ul>
+<li><b>One waiver per session.</b> Click New Session before starting another waiver.</li>
+<li><b>Review the empty fields.</b> Use <code>show empty fields</code> to catch anything missed.</li>
+<li><b>Check the evidence, not just the value.</b> Read the quoted wording and page number, especially for check boxes.</li>
+<li><b>Remember that <code>change</code> and <code>reject</code> save immediately.</b> Do your corrections, then finish with <code>approve all</code> so you know the final state is saved.</li>
+<li><b>Wait for the progress bar.</b> Do not resend a request while the tool is still working.</li>
+<li><b>Watch your Google Cloud spending</b> (section 2.2).</li>
+<li><b>Never share your <code>.env</code> file or screenshots that show file paths you do not want shared.</b></li>
+</ul>
+</section>
+
+<section class="chapter" id="s12">
+<h2>12. Troubleshooting</h2>
+<table>
+<tr><th style="width:34%">What you see</th><th>What to do</th></tr>
+<tr><td>The terminal says <b>"Google Cloud project is not set"</b>, or <b>PROJECT_ID and GOOGLE_CLOUD_PROJECT differ</b>, and the app will not load</td><td>Open <code>waiver_level_extraction_agent/.env</code>. Set both <code>PROJECT_ID</code> and <code>GOOGLE_CLOUD_PROJECT</code> to your project ID (3.7). Also check that no old value is set in your shell: type <code>echo $PROJECT_ID $GOOGLE_CLOUD_PROJECT</code>. Restart <code>adk web</code>.</td></tr>
+<tr><td>A permission error (403) or "billing" error from Google</td><td>Check that billing is enabled for the project and that the Vertex AI API is on (3.6). Re-run <code>gcloud auth application-default login</code> and make sure you signed in with an account that has access to that project.</td></tr>
+<tr><td>A "quota", "resource exhausted" or 429 error</td><td>Google is limiting how fast you can make requests. Wait a few minutes and try again.</td></tr>
+<tr><td>Nothing appears for a long time after you press Enter</td><td>The first request after starting the app can take around 2 to 3 minutes. Look at the terminal: new lines mean it is still working. Look at the Traces view for the latest step. If there has been no activity for more than 10 minutes, stop the app (Ctrl+C), start it again, and ask the tool to resume (see below).</td></tr>
+<tr><td>The run stopped part-way</td><td>Progress is saved after each stage in <code>data/stages/&lt;KEY&gt;/</code>. Restart the app, open a new session and ask the tool to resume that waiver from its last saved stage rather than starting over.</td></tr>
+<tr><td>"PDF not found"</td><td>Check the waiver key spelling, put the PDF in <code>data/pdfs_267_latest/</code>, or give the full path to the file.</td></tr>
+<tr><td>The terminal shows <b>chroma_error</b> in a log line</td><td>This is a non-fatal message from the optional search index. Your extraction and CSV are not affected.</td></tr>
+<tr><td>The app list contains "data"</td><td>It is only a folder. Choose <code>waiver_level_extraction_agent</code>.</td></tr>
+<tr><td>The page will not open at all</td><td>Make sure the terminal running <code>adk web</code> is still open, and that the address is exactly <code>http://127.0.0.1:8000</code>. If port 8000 is in use, start with another port, for example <code>adk web . --port 8001</code>.</td></tr>
+</table>
+</section>
+
+<section class="chapter" id="s13">
+<h2>13. Quick reference</h2>
+<h3 id="s13-1">13.1 Setup commands (once)</h3>
+<pre><code>git clone &lt;repository-url&gt; 1915c_extraction_agent &amp;&amp; cd 1915c_extraction_agent
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r waiver_level_extraction_agent/requirements.txt
+brew install poppler                       # or: sudo apt install poppler-utils
+gcloud auth application-default login
+cp waiver_level_extraction_agent/.env.example waiver_level_extraction_agent/.env
+# edit .env: set PROJECT_ID and GOOGLE_CLOUD_PROJECT to your project ID</code></pre>
+<h3 id="s13-2">13.2 Each time you work</h3>
+<pre><code>cd 1915c_extraction_agent
+source .venv/bin/activate
+adk web . --port 8000
+# open http://127.0.0.1:8000 and choose waiver_level_extraction_agent</code></pre>
+<h3 id="s13-3">13.3 Chat commands</h3>
+<table>
+<tr><th style="width:42%">Type</th><th>Purpose</th></tr>
+<tr><td><code>Extract &lt;WAIVER KEY&gt;</code></td><td>Run a full extraction.</td></tr>
+<tr><td><code>Review the extraction for &lt;WAIVER KEY&gt;</code></td><td>Reopen the review table for a waiver already extracted.</td></tr>
+<tr><td><code>show next page</code>, <code>show empty fields</code>, <code>show filled fields</code>, <code>show all</code></td><td>Move through and filter the table.</td></tr>
+<tr><td><code>search &lt;words&gt;</code></td><td>Find fields by topic or section number.</td></tr>
+<tr><td><code>change &lt;#&gt; to &lt;value&gt;</code></td><td>Correct a value (saves immediately).</td></tr>
+<tr><td><code>reject &lt;#&gt;</code></td><td>Blank a value (saves immediately).</td></tr>
+<tr><td><code>re-extract &lt;#&gt;</code></td><td>Read the PDF again for a field.</td></tr>
+<tr><td><code>approve all</code>, <code>approve all except &lt;#s&gt;</code>, <code>approve only &lt;range&gt;</code></td><td>Save the results.</td></tr>
+<tr><td><code>Extract the &lt;something&gt; from &lt;WAIVER KEY&gt;</code></td><td>Start a custom value.</td></tr>
+<tr><td><code>yes</code>, <code>approve</code>, <code>change to &lt;value&gt;</code>, <code>retry</code>, <code>reject</code></td><td>Answer the custom value prompts.</td></tr>
+</table>
+<p>These are recommended phrasings. You can also just chat with the tool in your own words.</p>
+</section>
+
+<section class="chapter" id="appA">
+<h2>Appendix A. The <code>.env</code> settings</h2>
+<table>
+<tr><th style="width:32%">Setting</th><th>Meaning</th></tr>
+<tr><td><code>PROJECT_ID</code></td><td>Your Google Cloud project ID. <b>Change this.</b> Used by the batch scripts.</td></tr>
+<tr><td><code>GOOGLE_CLOUD_PROJECT</code></td><td>Your Google Cloud project ID. <b>Change this.</b> Used by the ADK web app. Must equal <code>PROJECT_ID</code>.</td></tr>
+<tr><td><code>GOOGLE_GENAI_USE_VERTEXAI</code></td><td>Leave as <code>TRUE</code>. Tells the tool to use Google Cloud's Vertex AI.</td></tr>
+<tr><td><code>LOCATION</code></td><td>The Google Cloud region. Leave as <code>us-central1</code>. (The Gemini 3.7 model used by the ADK app is automatically sent to Google's global endpoint.)</td></tr>
+<tr><td><code>CACHE_GCS_BUCKET</code> (optional)</td><td>A Cloud Storage bucket used to cache large PDFs in the <b>services</b> pipeline. If not set, a bucket named <code>&lt;PROJECT_ID&gt;-waiver-pdf-cache</code> is created on first use, which needs permission to create buckets.</td></tr>
+<tr><td><code>PDF_DIR</code>, <code>OUTPUT_DIR</code>, <code>LOG_DIR</code></td><td>Folders for source PDFs, results and logs, relative to the project root. Leave as they are unless you have a reason to move them.</td></tr>
+</table>
+
+<h2 style="margin-top:1.4em" id="appB">Appendix B. Google documentation and credits</h2>
+<div class="box warn"><span class="t credits">REMINDER: THESE TOOLS NEED CREDITS OR AN ACTIVE BILLING ACCOUNT.</span><b>Google charges for the model calls this tool makes. Enable billing or check your free credits before running, and watch your spend.</b></div>
+<p>The Google Cloud console screenshots and the exact click paths are in Google's own documentation, which stays up to date with the console's layout:</p>
+<ul>
+<li><b>Finding your project ID:</b> "View and update projects", Resource Manager, docs.cloud.google.com/resource-manager/docs/view-update-projects</li>
+<li><b>Creating a project:</b> "Create projects", docs.cloud.google.com/resource-manager/docs/creating-managing-projects</li>
+<li><b>Signing in for local use (ADC):</b> "Set up ADC for a local development environment", docs.cloud.google.com/docs/authentication/set-up-adc-local-dev-environment</li>
+<li><b>Project, billing and API setup for Vertex AI:</b> "Set up a project and a development environment", docs.cloud.google.com/vertex-ai/docs/start/cloud-environment</li>
+<li><b>Billing questions for Vertex AI:</b> docs.cloud.google.com/vertex-ai/docs/support/billing-questions</li>
+<li><b>Free trial credits:</b> "Google Cloud Free Trial FAQs", cloud.google.com/signup-faqs</li>
+<li><b>Current model prices:</b> cloud.google.com/vertex-ai/pricing</li>
+<li><b>Installing the gcloud CLI:</b> cloud.google.com/sdk/docs/install</li>
+</ul>
+<p class="small">Google, Google Cloud, Vertex AI and Gemini are trademarks of Google LLC. Page layouts and product names in Google's documentation may change; use the current version of those pages.</p>
+
+<h2 style="margin-top:1.4em" id="appC">Appendix C. Glossary</h2>
+<table>
+<tr><th style="width:26%">Term</th><th>Meaning</th></tr>
+<tr><td>1915(c) waiver</td><td>A Medicaid program that pays for home and community-based services as an alternative to institutional care.</td></tr>
+<tr><td>Waiver key</td><td>The identifier of one waiver application, such as <code>PA0324R0600</code>. Not the same as a Google Cloud project ID.</td></tr>
+<tr><td>Project ID</td><td>The unique ID of your Google Cloud project, for example <code>my-waiver-project-123456</code>.</td></tr>
+<tr><td>ADC (Application Default Credentials)</td><td>The way Google's tools find your sign-in on your computer, set up with <code>gcloud auth application-default login</code>.</td></tr>
+<tr><td>Vertex AI</td><td>Google Cloud's service for running AI models, including Gemini.</td></tr>
+<tr><td>ADK (Agent Development Kit)</td><td>The framework that provides the chat window and runs the tool's steps.</td></tr>
+<tr><td>Layout file</td><td>The file that lists the 163 fields to extract, with a short description of each.</td></tr>
+<tr><td>Evidence</td><td>The exact wording from the PDF, with its page number, that an answer is based on.</td></tr>
+<tr><td>Session</td><td>One conversation in the chat window. Start a new one with New Session.</td></tr>
+</table>
+
+<h2 style="margin-top:1.4em" id="appD">Appendix D. Tested with</h2>
+<table>
+<tr><td style="width:32%">Operating system</td><td>macOS (<b>not tested on Windows</b>)</td></tr>
+<tr><td>Python</td><td>3.12</td></tr>
+<tr><td>Google ADK</td><td>2.0.0</td></tr>
+<tr><td>Model</td><td>Gemini 3.7 Flash (through Vertex AI)</td></tr>
+<tr><td>Browser</td><td>Google Chrome</td></tr>
+<tr><td>Waiver used in screenshots</td><td>PA0324R0600 (Pennsylvania, Medicaid Waiver for Infants, Toddlers and Families), 125 pages</td></tr>
+</table>
+<p class="small">Windows and Linux commands are given for convenience but were not run for this guide. Pipeline mode was documented from its help text and was not run for this guide.</p>
+
+<h2 style="margin-top:1.4em" id="appE">Appendix E. Setting up with an AI assistant</h2>
+<p>If you already use an AI assistant, it can take the project from a fresh download to a working app on your computer. A <b>coding assistant that can run commands</b> (one that works in a terminal or an editor, with your permission) can do almost all of section 3 itself: download the project, create the Python environment, install the packages and tools, create the <code>.env</code> file, and start the app.</p>
+<h3 id="appE-1">E.1 Who does what</h3>
+<table>
+<tr><th style="width:50%">The assistant can do</th><th>Only you can do (the Google and Gemini side)</th></tr>
+<tr><td>Download the project (<code>git clone</code>)<br>Check Python, create <code>.venv</code><br>Install the packages, poppler and the gcloud CLI<br>Create <code>.env</code> and fill in your project ID<br>Check the settings and start <code>adk web</code></td>
+<td>Create or choose the Google Cloud project<br>Turn on billing, or confirm you have credits<br>Turn on the Vertex AI API (or ask the assistant to run the command)<br>Complete the <code>gcloud auth application-default login</code> sign-in in the browser<br>Copy the project ID and give it to the assistant</td></tr>
+</table>
+<p>A good assistant stops at each of those steps on the right, tells you exactly what to do, and waits. <b>It should never start an extraction</b>, because that calls the Gemini model and is billed to your project.</p>
+<h3 id="appE-2">E.2 The prompt</h3>
+<p>Open the project folder in your assistant (or an empty folder, if it will download the project for you), then paste the text below. Replace the text in <b>[square brackets]</b> first. The same prompt is in the SETUP file in the project folder.</p>
+<pre class="long"><code><!--AI_PROMPT--></code></pre>
+<h3 id="appE-3">E.3 What a successful setup looks like</h3>
+<ul>
+<li>The assistant reports <code>config ok</code> and <code>sign-in ok</code>.</li>
+<li>The terminal shows <code>Uvicorn running on http://127.0.0.1:8000</code>.</li>
+<li>When you open <code>http://127.0.0.1:8000</code> and click <b>Select an app</b>, <code>waiver_level_extraction_agent</code> is in the list (Figure 2).</li>
+<li>No extraction has been run and no money has been spent yet.</li>
+</ul>
+<div class="box warn"><span class="t">Read what the assistant does</span>An assistant can make mistakes or misread an error. Read each command before you approve it. Do the Google sign-in and billing steps yourself. Do not paste passwords, keys or tokens into a chat, and do not let it upload your <code>.env</code> file anywhere.</div>
+<p>If your assistant cannot run commands (a plain chat window), the prompt tells it to give you the commands one at a time and wait for your pasted output, so you can still follow along.</p>
+</section>
+
+</body>
+</html>
